@@ -1,3 +1,11 @@
+The initial site configuration is based on
+https://github.com/ammarjabakji/gatsby-markdown-blog-starter/
+and retains its MIT license included below. The content directory of this
+repository is licensed separately as BY-NC-SA For more informations see the
+LICENSE file in that directory.
+
+-----------------------------------------------------------------------------
+
 MIT License
 
 Copyright (c) 2017 Ruben Harutyunyan

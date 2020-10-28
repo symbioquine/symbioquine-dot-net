@@ -53,6 +53,12 @@ module.exports = {
             }
           },
           {
+            resolve: "gatsby-remark-embed-gist",
+            options: {
+              username: "symbioquine",
+            }
+          },
+          {
             resolve: "gatsby-remark-responsive-iframe"
           },
           "gatsby-remark-prismjs",

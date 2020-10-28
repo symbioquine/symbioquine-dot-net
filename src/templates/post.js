@@ -2,7 +2,6 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { graphql, Link } from 'gatsby'
 import Layout from '../layout'
-import Bio from '../components/Bio'
 import PostTags from '../components/PostTags'
 import SocialLinks from '../components/SocialLinks'
 import SEO from '../components/SEO'
@@ -36,7 +35,6 @@ export default ({ data, pageContext }) => {
           <div dangerouslySetInnerHTML={{ __html: postNode.html }} />
 
           <hr />
-          <Bio config={config} />
           <div className={styles.postMeta}>
             <SocialLinks postPath={slug} postNode={postNode} />
           </div>
