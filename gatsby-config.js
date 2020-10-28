@@ -74,6 +74,12 @@ module.exports = {
       }
     },
     {
+      resolve: 'gatsby-plugin-gtag',
+      options: {
+        trackingId: config.googleAnalyticsID,
+      },
+    },
+    {
       resolve: "gatsby-plugin-nprogress",
       options: {
         color: config.themeColor
