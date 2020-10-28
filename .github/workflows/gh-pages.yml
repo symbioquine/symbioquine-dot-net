@@ -24,6 +24,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - run: npm install -g gatsby-cli
       - run: npm run build
 
       - name: Deploy
@@ -31,4 +32,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          cname: 'symbioquine.net'
 
