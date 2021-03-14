@@ -2,7 +2,7 @@
 date: 2020-10-27
 title: 'EPever MPPT Solar Charge Controller Monitoring Hardware'
 thumbnail: './materials.jpg'
-cover: "/materials.jpg"
+cover: "./materials.jpg"
 slug: 2020-10-27-epever-esp8266-controller
 categories:
     - Build Logs

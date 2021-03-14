@@ -67,7 +67,13 @@ export const pageQuery = graphql`
       excerpt
       frontmatter {
         title
-        cover
+        cover {
+          childImageSharp {
+            fluid(maxWidth: 600) {
+              ...GatsbyImageSharpFluid_tracedSVG
+            }
+          }
+        }
         date
         categories
         tags

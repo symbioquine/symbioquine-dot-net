@@ -12,7 +12,7 @@ const SEO = ({ postNode, postPath, postSEO }) => {
     const postMeta = postNode.frontmatter
     ;({ title } = postMeta)
     description = postMeta.description ? postMeta.description : postNode.excerpt
-    image = postMeta.cover
+    image = postMeta.cover?.childImageSharp.fluid.src
     postURL = urljoin(config.siteUrl, config.pathPrefix, postPath)
   } else {
     title = config.siteTitle
@@ -20,7 +20,9 @@ const SEO = ({ postNode, postPath, postSEO }) => {
     image = config.siteLogo
   }
 
-  image = urljoin(config.siteUrl, config.pathPrefix, image)
+  if (image) {
+    image = urljoin(config.siteUrl, config.pathPrefix, image)
+  }
   const blogURL = urljoin(config.siteUrl, config.pathPrefix)
   const schemaOrgJSONLD = [
     {

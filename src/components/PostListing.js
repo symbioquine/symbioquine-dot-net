@@ -33,6 +33,12 @@ const PostListing = ({ postEdges }) => {
                 {post.date} &mdash; <span>{post.categories.join(' / ')}</span>{' '}
                 &mdash; {post.timeToRead} Min Read{' '}
               </div>
+              {post.cover && <div
+                className={styles.articleBoxImg}
+                style={{
+                  backgroundImage: `url(${post.cover.childImageSharp.fluid.src})`,
+                }}>
+              </div>}
               <p>{post.excerpt}</p>
             </div>
           </article>
