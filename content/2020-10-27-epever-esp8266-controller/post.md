@@ -1,8 +1,8 @@
 ---
 date: 2020-10-27
 title: 'EPever MPPT Solar Charge Controller Monitoring Hardware'
-thumbnail: './images/2020-10-27-epever-esp8266-controller/materials.jpg'
-cover: "/images/2020-10-27-epever-esp8266-controller/materials.jpg"
+thumbnail: './materials.jpg'
+cover: "/materials.jpg"
 slug: 2020-10-27-epever-esp8266-controller
 categories:
     - Build Logs
@@ -12,7 +12,7 @@ tags:
   - Off-grid
 ---
 
-Cheap MPPT solar charge controllers have become ubiquitous. Many of these sport [RS232](https://en.wikipedia.org/wiki/RS-232) or [RS485](https://en.wikipedia.org/wiki/RS-485)/[Modbus](https://en.wikipedia.org/wiki/Modbus) ports
+Cheaper MPPT solar charge controllers have become ubiquitous. Many of these sport [RS232](https://en.wikipedia.org/wiki/RS-232) or [RS485](https://en.wikipedia.org/wiki/RS-485)/[Modbus](https://en.wikipedia.org/wiki/Modbus) ports
 allowing the controllers to be extended via proprietary hardware/software for advanced monitoring and control use-cases.
 
 Since this Spring I have been experimenting with the EPever (EPSolar) line of MPPT solar charge controllers which have RS485 interfaces and thought it would be worthwhile to share my
@@ -49,7 +49,7 @@ Most important of the undocumented commands the MT-50 uses is one for reading sp
 
 With the protocol bits figured out and a nice watertight box, I had a passable system component which publishes metrics and still allows the local display to work.
 
-![A Raspberry Pi in a watertight box with dual usb-serial and RS232-to-RS485 adapters](./images/2020-10-27-epever-esp8266-controller/second_pi.jpg)
+![A Raspberry Pi in a watertight box with dual usb-serial and RS232-to-RS485 adapters](./second_pi.jpg)
 
 Unfortunately, there were still several issues with this strategy;
 
@@ -71,7 +71,7 @@ Maintaining the ssh tunnel from the esp8266 didn't seem practical so I switched 
 
 ### Materials
 
-![Consumable materials used in this build](./images/2020-10-27-epever-esp8266-controller/materials.jpg)
+![Consumable materials used in this build](./materials.jpg)
 
 * [ESP8266](https://www.amazon.com/dp/B081CSJV2V/)
 * [Automatic Flow Control UART to RS485 Converter](https://www.amazon.com/dp/B082Y19KV9/)
@@ -85,23 +85,23 @@ Maintaining the ssh tunnel from the esp8266 didn't seem practical so I switched 
 
 ### The Build
 
-![Wiring diagram showing RS485 connection through adapter to ESP8266](./images/2020-10-27-epever-esp8266-controller/diagram_wiring.png)
+![Wiring diagram showing RS485 connection through adapter to ESP8266](./diagram_wiring.png)
 
 Start by stripping about 2" of the outer ethernet cable housing and removing the striped wires. The ground and +5v - brown and orange respectively - are left long while the RS485 A/B wires are trimmed short.
 
-![Detail image showing preparation of the cable for connection to the RS485 adapter](./images/2020-10-27-epever-esp8266-controller/inner_cable_prep.jpg)
+![Detail image showing preparation of the cable for connection to the RS485 adapter](./inner_cable_prep.jpg)
 
 Next the RS485 adapter is grounded.
 
-![Detail image showing one approach for grounding the RS485 adapter](./images/2020-10-27-epever-esp8266-controller/wiring_rs485_adapter.jpg)
+![Detail image showing one approach for grounding the RS485 adapter](./wiring_rs485_adapter.jpg)
 
 Then jumper wires are added to the adapter and the whole thing is assembled into the case.
 
-![Image showing the assembled case lid, cable, adapter, and jumper wires](./images/2020-10-27-epever-esp8266-controller/fully_assembled_cable_and_lid.jpg)
+![Image showing the assembled case lid, cable, adapter, and jumper wires](./fully_assembled_cable_and_lid.jpg)
 
 Here is the fully assembled unit connected and powered up.
 
-![Image showing the fully assembled unit connected and powered up](./images/2020-10-27-epever-esp8266-controller/final_all_connected.jpg)
+![Image showing the fully assembled unit connected and powered up](./final_all_connected.jpg)
 
 *Note: for initial programming via USB it is necessary to disconnect the green (RX) wire from the esp8266. After initial programming, OTA updates can be used to avoid that step.*
 

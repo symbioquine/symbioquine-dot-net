@@ -15,8 +15,8 @@ const config = {
   userEmail: 'symbioquine@gmail.com', // Email used for RSS feed's author segment
   userTwitter: 'Symbioquine', // Optionally renders "Follow Me" in the Bio segment.
   userGitHub: 'symbioquine', // Optionally renders "Follow Me" in the Bio segment.
-  userLocation: 'Washington, USA', // User location to display in the author segment.
-  copyright: 'Copyright © 2020. All rights reserved.', // Copyright string for the footer of the website and RSS feed.
+  userLocation: 'WA, USA', // User location to display in the author segment.
+  copyright: 'Copyright © 2021. All rights reserved.', // Copyright string for the footer of the website and RSS feed.
   themeColor: '#c62828', // Used for setting manifest and progress theme colors.
   backgroundColor: 'red' // Used for setting manifest background color.
 }
