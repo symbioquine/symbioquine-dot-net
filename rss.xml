@@ -1,4 +1,213 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net</link><image><url>https://symbioquine.net/logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Sun, 14 Mar 2021 19:35:53 GMT</lastBuildDate><atom:link href="https://symbioquine.net/rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2021. All rights reserved.]]></copyright><item><title><![CDATA[Pragmatic Minimal Infrastructure]]></title><description><![CDATA[A 2019 article by David Futcher appeared on Hacker News recently titled You Don’t Need All That Complex/Expensive/Distracting Infrastructure…]]></description><link>https://symbioquine.net/2020-03-14-pragmatic-minimal-infrastructure</link><guid isPermaLink="false">https://symbioquine.net/2020-03-14-pragmatic-minimal-infrastructure</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Sun, 14 Mar 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;A 2019 article by David Futcher &lt;a href=&quot;https://news.ycombinator.com/item?id=26423110&quot;&gt;appeared on Hacker News recently&lt;/a&gt; titled &lt;a href=&quot;https://blog.usejournal.com/you-dont-need-all-that-complex-expensive-distracting-infrastructure-a70dbe0dbccb&quot;&gt;You Don’t Need All That Complex/Expensive/Distracting Infrastructure&lt;/a&gt;.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net</link><image><url>https://symbioquine.net/logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Fri, 03 Sep 2021 02:40:07 GMT</lastBuildDate><atom:link href="https://symbioquine.net/rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2021. All rights reserved.]]></copyright><item><title><![CDATA[Epever Solar Charge Controller Clocks Running Fast]]></title><description><![CDATA[As a follow-up to my previous post about off-grid solar monitoring via the ESP8266, I am writing this post to share what I've learned about…]]></description><link>https://symbioquine.net/2020-09-02-epever-scc-clocks-running-fast</link><guid isPermaLink="false">https://symbioquine.net/2020-09-02-epever-scc-clocks-running-fast</guid><category><![CDATA[Solar]]></category><category><![CDATA[Microcontrollers]]></category><category><![CDATA[Off-grid]]></category><pubDate>Thu, 02 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;As a follow-up to my &lt;a href=&quot;./2020-10-27-epever-esp-8266-controller&quot;&gt;previous post&lt;/a&gt; about off-grid solar monitoring via the ESP8266, I am writing this post to share what I&apos;ve learned about the clock behavior on the EPever (EPSolar) Tracer####AN line of MPPT solar charge controllers.&lt;/p&gt;
+&lt;p&gt;I have four of these solar charge controllers running all the time each with an ESP8266 publishing metrics back to an InfluxDB instance. The Epever Tracer units provide several features which depend on date/time;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Time-of-day load control&lt;/li&gt;
+&lt;li&gt;Cumulative energy generated/consumed stats&lt;/li&gt;
+&lt;li&gt;Periodic equalization charging for lead-acid batteries&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;My loads are almost always switched on so the first feature is not particularly useful to me, but the other two are. These features make the most sense when the clock on the Epever unit is set accurately. The date/time can be viewed and set manually via the MT-50 external display, or by some other device over Modbus/RS485 - in my case the ESP8266.&lt;/p&gt;
+&lt;p&gt;If the clock on the Epever units was accurate enough, there wouldn&apos;t be much point in automatically correcting it from the ESP8266 since it could just be set upon initial system setup with the MT-50. On the other hand, if the clock was inaccurate, it would be nice to automatically correct it using the time from an NTP server. To understand this, I started capturing a &quot;timeDrift&quot; metric calculated by subtracting the current NTP time from the current time reported by the Epever unit. This new metric showed that the Epever units were consistently running a little fast - ~4s/day.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/85803e71a3564c94884ca6a7d4137a02/cc418/time_drift_metric.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.17919075144509%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAAzElEQVQoz32SCQ6EIAxFPYQLFGgpuIxm7n++KZIgbpO8GNT/+k1j0w1wp1fGYrDI2mDbX9+2vW47rQCbkn5I7NSBPEhZh6MH9M1jc04XOnEEZbRzNDNvkT8xyXXoQpqyawNYF7xfAq9JkwMt/CqXL5QqF704YU1OJvsPsvQkTQEQ+jmEbbxomZNcNjSAsUy0azlUnAf52KGTHXJYx7v2Kg/aGEKauDx9Q/Zcn8FRI1Xjd4rSJp1/kdH1OTUbJECU6wHt4AkQyNe38vP9AF4nTEXE7SQaAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Single time drift metric&quot;
+        title=&quot;Single time drift metric&quot;
+        src=&quot;/static/85803e71a3564c94884ca6a7d4137a02/1e043/time_drift_metric.png&quot;
+        srcset=&quot;/static/85803e71a3564c94884ca6a7d4137a02/991de/time_drift_metric.png 173w,
+/static/85803e71a3564c94884ca6a7d4137a02/e4d6b/time_drift_metric.png 345w,
+/static/85803e71a3564c94884ca6a7d4137a02/1e043/time_drift_metric.png 690w,
+/static/85803e71a3564c94884ca6a7d4137a02/e3189/time_drift_metric.png 1035w,
+/static/85803e71a3564c94884ca6a7d4137a02/b1001/time_drift_metric.png 1380w,
+/static/85803e71a3564c94884ca6a7d4137a02/cc418/time_drift_metric.png 1992w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I would also occasionally get nonsense datapoints where the Epever unit would briefly report a current date/time about 40 years in the past (approx. -1.26 * 10^9).&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ca10c157f631b3fb2517390e11ec7885/cc418/clock_race_condition.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.17919075144509%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAAeElEQVQoz82SSwrAIAxEvUOrJvGDvf8lOxoQEbMsFIbhmZjMJs5HuQPDVZNTabk+JOXYBZBUZw0DLk9r6zAcKOEBV1m8VQAjOfAxeeMvku20PydHxiaBqyxeKyN8JFPKuAi4yuJZieq91YcrzgjOClO8+KbxU3J7AX1yPo4Lx5qsAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Clock race condition&quot;
+        title=&quot;Clock race condition&quot;
+        src=&quot;/static/ca10c157f631b3fb2517390e11ec7885/1e043/clock_race_condition.png&quot;
+        srcset=&quot;/static/ca10c157f631b3fb2517390e11ec7885/991de/clock_race_condition.png 173w,
+/static/ca10c157f631b3fb2517390e11ec7885/e4d6b/clock_race_condition.png 345w,
+/static/ca10c157f631b3fb2517390e11ec7885/1e043/clock_race_condition.png 690w,
+/static/ca10c157f631b3fb2517390e11ec7885/e3189/clock_race_condition.png 1035w,
+/static/ca10c157f631b3fb2517390e11ec7885/b1001/clock_race_condition.png 1380w,
+/static/ca10c157f631b3fb2517390e11ec7885/cc418/clock_race_condition.png 1992w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I believe this to be due to some sort of race condition in how the Epever units read the time from their internal real-time-clock to report it back via Modbus. That hypothesis is reinforced by the observation that the erroneous datapoints tend to fluctuate by 60s and occasionally 3600s - suggesting that the race condition is occurring when a Modbus request for the time coincides with a minute or hour rolling over.&lt;/p&gt;
+&lt;p&gt;With all those observations in hand, I ended up with some roughly Arduino compatible code that monitors and automatically corrects the Epever unit&apos;s clock when it becomes too far out of sync;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;c++&quot;&gt;&lt;pre class=&quot;language-c++&quot;&gt;&lt;code class=&quot;language-c++&quot;&gt;uint16_t pack_as_int(uint8_t v0, uint8_t v1) {
+  uint16_t t = (v0 &amp;lt;&amp;lt; 8) | v1;
+  return t;
+}
+
+uint32_t upper_int(uint16_t v) {
+  return (v &amp;gt;&amp;gt; 8) &amp;amp; 0xFF;
+}
+
+uint32_t lower_int(uint16_t v) {
+  return v &amp;amp; 0xFF;
+}
+
+bool readDevClock(time_t&amp;amp; devTime) {
+  delay(250);
+  uint8_t result = node-&amp;gt;readHoldingRegisters(0x9013, 0x3);
+  if (result != ModbusMaster::ku8MBSuccess) {
+    Serial.printf(&amp;quot;Failed to read date from charge controller: 0x%02X\n&amp;quot;, result);
+    return false;
+  }
+
+  uint16_t min_and_sec = node-&amp;gt;getResponseBuffer(0x0);
+  uint16_t day_and_hour = node-&amp;gt;getResponseBuffer(0x1);
+  uint16_t year_and_month = node-&amp;gt;getResponseBuffer(0x2);
+
+  struct tm devTm;
+
+  devTm.tm_year = (upper_int(year_and_month) + 2000) - 1900;
+  devTm.tm_mon = lower_int(year_and_month) - 1;
+  devTm.tm_mday = upper_int(day_and_hour);
+  devTm.tm_hour = lower_int(day_and_hour);
+  devTm.tm_min = upper_int(min_and_sec);
+  devTm.tm_sec = lower_int(min_and_sec);
+  devTm.tm_isdst = -1;
+
+  devTime = mktime(&amp;amp;devTm);
+
+  if (devTime &amp;lt; -1260000000 &amp;amp;&amp;amp; devTime &amp;gt; -1270000000) {
+    Serial.printf(&amp;quot;Received faulty date from charge controller: %04d-%02d-%02dT%02d:%02d:%02dZ\n&amp;quot;, devTm.tm_year + 1900, devTm.tm_mon + 1, devTm.tm_mday, devTm.tm_hour, devTm.tm_min, devTm.tm_sec);
+    return false;
+  }
+
+  return true;
+}
+
+void syncClock() {
+  time_t devTime0;
+  time_t devTime1;
+
+  // Don&amp;#39;t record metrics or adjust controller date/time if we can&amp;#39;t reliably tell
+  // what time it has already set
+  if (!readDevClock(devTime0) || !readDevClock(devTime1)) {
+      return;
+  }
+
+  long int devTimeDelta = devTime0 - devTime1;
+
+  if (devTimeDelta &amp;lt; -10 || devTimeDelta &amp;gt; 10) {
+      metricBuffer-&amp;gt;appendf(&amp;quot;,devTimeDelta=%di&amp;quot;, devTimeDelta);
+      return;
+  }
+
+  time_t currTime;
+  time(&amp;amp;currTime);
+
+  // Don&amp;#39;t record metrics or adjust controller date/time if somehow we didn&amp;#39;t
+  // get the correct time from NTP
+  if (currTime &amp;lt; 1000000000l) {
+      return;
+  }
+
+  // Serial.printf(&amp;quot;Got date from charge controller: %d-%d-%dT%d:%d:%dZ (currTime = %ld, devTime = %ld, drift = %ld)\n&amp;quot;,
+  //   devTm.tm_year + 1900, devTm.tm_mon + 1, devTm.tm_mday, devTm.tm_hour, devTm.tm_min, devTm.tm_sec, currTime, devTime, devTime - currTime);
+
+  long int timeDrift = devTime1 - currTime;
+
+  metricBuffer-&amp;gt;appendf(&amp;quot;,devTime=%di&amp;quot;, devTime1);
+  metricBuffer-&amp;gt;appendf(&amp;quot;,currTime=%di&amp;quot;, currTime);
+  metricBuffer-&amp;gt;appendf(&amp;quot;,timeDrift=%di&amp;quot;, timeDrift);
+
+  struct tm *currTm = localtime(&amp;amp;currTime);
+
+  // Only update controller date/time if it is more than an hour off or we&amp;#39;re in the first five minutes of the day
+  bool shouldUpdate = abs(timeDrift) &amp;gt; 3600 || (abs(timeDrift) &amp;gt; 5 &amp;amp;&amp;amp; currTm-&amp;gt;tm_hour == 0 &amp;amp;&amp;amp; currTm-&amp;gt;tm_min &amp;lt;= 5);
+  if (!shouldUpdate) {
+      return;
+  }
+
+  node-&amp;gt;setTransmitBuffer(0, pack_as_int(currTm-&amp;gt;tm_min, currTm-&amp;gt;tm_sec));
+  node-&amp;gt;setTransmitBuffer(1, pack_as_int(currTm-&amp;gt;tm_mday, currTm-&amp;gt;tm_hour));
+  node-&amp;gt;setTransmitBuffer(2, pack_as_int((currTm-&amp;gt;tm_year + 1900) - 2000, currTm-&amp;gt;tm_mon + 1));
+
+  uint8_t result = node-&amp;gt;writeMultipleRegisters(0x9013, 3);
+  if (result == ModbusMaster::ku8MBSuccess) {
+    Serial.printf(&amp;quot;Successfully set charge controller date/time.\n&amp;quot;);
+  } else {
+    Serial.printf(&amp;quot;Failed to set charge controller date/time: 0x%02X&amp;quot;, result);
+  }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Which yields the following nice behavior where all four of my controllers are consistently drifting by about 4s per day and having their clocks updated approximately every other day at midnight;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a07e7864f198dc385fb41a95e3b5cf1a/9831c/clock_drift_with_correction.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.75722543352601%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAB2ElEQVQoz12S646bMBCFeYZuwPaMbQwEknA3ucAaCLlok2zTvv/r1FnUVq00so49xzM/zud4FAnjc83ao5yCkCqyRdH/0/1rm4uiQ0AsCFIKLmGgli4BYFYDVcuFx5KAux7zQHgEJIJr58qQ2AGAbx5zMEkp8IiDDMJ8VzGGKx/tFEjyPOFtJl0mIVr7iCFCsF4lZSoBlj7/5jJHlXUkeKqwMU3Z1aHAleK4Lle6OG9VFXOxKYKiWEuMfd6d96nONhJCyd88cJL9LlN8aGJz7Xa9Tn1cxdHqsJ8u+qr9JguWbZvWRa6g26+Hh2m2WaEgjpcuCKc4bPtc3i5NfzenSWcBr5pquJv7RZ9r2XXlpn9vdDYU/sf9MD7McEjzUJb7hqBwrufdZ795fJrrd3ObqjyJrrfu8dM8z9VHG083o4fuYvLnubw9+/sPM+42O51fHoZy7lxPehrr6WhPPZiqa0u7316PppjGyoza9Po0ltYzHl/v720xTc3xWFPkDviKSt9mRTyq4iCIFRDquQSXiSdUolgSIpHBgqJgbLGg6yKWPpeMEcocm7VHYY7esuHOnFiNwraQi5kHYm1fhDBA66GML145SyVkwED8T9Jv2v5h67VpFq/PvwAFB2BtMZXQrQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Clock drift with correction&quot;
+        title=&quot;Clock drift with correction&quot;
+        src=&quot;/static/a07e7864f198dc385fb41a95e3b5cf1a/1e043/clock_drift_with_correction.png&quot;
+        srcset=&quot;/static/a07e7864f198dc385fb41a95e3b5cf1a/991de/clock_drift_with_correction.png 173w,
+/static/a07e7864f198dc385fb41a95e3b5cf1a/e4d6b/clock_drift_with_correction.png 345w,
+/static/a07e7864f198dc385fb41a95e3b5cf1a/1e043/clock_drift_with_correction.png 690w,
+/static/a07e7864f198dc385fb41a95e3b5cf1a/e3189/clock_drift_with_correction.png 1035w,
+/static/a07e7864f198dc385fb41a95e3b5cf1a/b1001/clock_drift_with_correction.png 1380w,
+/static/a07e7864f198dc385fb41a95e3b5cf1a/9831c/clock_drift_with_correction.png 1995w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;In the future I hope to share more of my learnings about monitoring/controlling cheap off-grid solar charge controllers - and perhaps a more complete firmware at some point too.&lt;/p&gt;
+&lt;p&gt;Thanks for reading!&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Pragmatic Minimal Infrastructure]]></title><description><![CDATA[A 2019 article by David Futcher appeared on Hacker News recently titled You Don’t Need All That Complex/Expensive/Distracting Infrastructure…]]></description><link>https://symbioquine.net/2020-03-14-pragmatic-minimal-infrastructure</link><guid isPermaLink="false">https://symbioquine.net/2020-03-14-pragmatic-minimal-infrastructure</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Sun, 14 Mar 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;A 2019 article by David Futcher &lt;a href=&quot;https://news.ycombinator.com/item?id=26423110&quot;&gt;appeared on Hacker News recently&lt;/a&gt; titled &lt;a href=&quot;https://blog.usejournal.com/you-dont-need-all-that-complex-expensive-distracting-infrastructure-a70dbe0dbccb&quot;&gt;You Don’t Need All That Complex/Expensive/Distracting Infrastructure&lt;/a&gt;.
 The article is well written and makes a really important point about building to your actual requirements. It&apos;s hard to over-emphasize &lt;a href=&quot;https://martinfowler.com/bliki/Yagni.html&quot;&gt;YAGNI&lt;/a&gt; at all
 levels of coding, software engineering, and operations. Critical thinking about the tradeoffs of increasing the upfront cost - whether in time, cash,
 or complexity - is essential to reaching your audience faster and still having the flexibility/budget to respond to the ever-changing playing field.&lt;/p&gt;
