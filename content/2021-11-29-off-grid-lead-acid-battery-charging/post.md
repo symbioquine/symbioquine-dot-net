@@ -35,12 +35,12 @@ There are a number of approaches to mitigating/solving this problem;
 1. Shifting loads to the day time if/when there is excess solar capacity.
 2. Reducing usage such that - on average - there are enough hours of solar to charge when taking into account the battery charge curve.
 3. Performing a portion of the bulk charge using generator power in the morning before the "solar charging day" begins.
- - This yields the best value for the time spent running a generator since most generators are most efficient between 40% and 70% of their rated output.
+    * This yields the best value for the time spent running a generator since most generators are most efficient between 40% and 70% of their rated output.
 4. Increasing the size of the LA battery bank.
- - This will allow the same amount of usage while staying at a higher SoC - which in turn means staying farther down the tail end of the charging curve.
+    * This will allow the same amount of usage while staying at a higher SoC - which in turn means staying farther down the tail end of the charging curve.
 5. Shifting loads to other battery technologies.
- - The cheap/easy version of this is similar to #1 where one just charges laptops/phones/etc during the day when there is excess solar capacity.
- - This could also be a strategy for moving to another battery technology altogether. For example, by using a [DC-DC charger](https://www.amazon.com/dp/B085G72RQ2) configured to charge a secondary LiFePo4 battery bank to which loads and batteries are added incrementally.
+    * The cheap/easy version of this is similar to #1 where one just charges laptops/phones/etc during the day when there is excess solar capacity.
+    * This could also be a strategy for moving to another battery technology altogether. For example, by using a [DC-DC charger](https://www.amazon.com/dp/B085G72RQ2) configured to charge a secondary LiFePo4 battery bank to which loads and batteries are added incrementally.
  
 Hopefully this post has served to highlight the importance of considering charging time as a key aspect of off-grid load management and battery sizing. May your systems be performant, long lasting, and boring.
 
