@@ -14,7 +14,7 @@ tags:
 
 Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it wasn't performing as they expected, I gained a greater appreciation for the nuances of lead acid (LA) battery charging characteristics and how they affect off-grid systems - especially those systems with insufficient solar capacity and those in less equatorial latitudes.
 
-There are many other articles describing the care and feeding of LA batteries ([here is one of my favorites](https://www.sevarg.net/2018/04/08/off-grid-rv-lead-acid-maintenance-charging-failure-modes/)) so I will try to go beyond just reiterating the conventional wisdom about LA battery life being inversely proportional to the depth of discharge (DoD). I'm instead going to focus on one of the most important off-grid system characteristics which I think is both crucial and often neglected. That characteristic is **charging time**. (*Actually, reputable battery manufacturers often **do** provide specifications/guidance that are both detailed and tailored to their products, but for whatever reason that information - and the consequences thereof - doesn't seem to be well represented more generally.*)
+There are many other articles describing the care and feeding of LA batteries ([here is one of my favorites](https://www.sevarg.net/2018/04/08/off-grid-rv-lead-acid-maintenance-charging-failure-modes/)) so I will try to go beyond just reiterating the conventional wisdom about LA battery life being inversely proportional to the depth of discharge (DoD). I'm instead going to focus on one of the most important off-grid system characteristics which I think is both crucial and often neglected. That characteristic is **charging time**. (_Actually, reputable battery manufacturers often **do** provide specifications/guidance that are both detailed and tailored to their products, but for whatever reason that information - and the consequences thereof - doesn't seem to be well represented more generally._)
 
 All batteries have maximum rates at which they can safely charge. For LA batteries, the charging rates are usually specified by the manufacturer either in terms of a number of hours in bulk and absorption charging or in terms of a graph showing the state of charge (SoC) vs charging power and time. Regardless of how much solar capacity a system has, it will tend not to fully charge the batteries unless the system has long enough with sufficient power for charging from a given average DoD.
 
@@ -22,7 +22,7 @@ You've probably seen the characteristic charge curve of LA batteries where the c
 
 ![Graph of lead acid charging amperage from a 10% DoD](./lead-acid-charging-amps.png)
 
-*The above graph is showing a Renogy 200 Ah AGM charging from a 10% DoD on 2021/07/05.*
+_The above graph is showing a Renogy 200 Ah AGM charging from a 10% DoD on 2021/07/05._
 
 That roughly matches the manufacturer's charging characteristics graph.
 
