@@ -1,5 +1,98 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net</link><image><url>https://symbioquine.net/logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Mon, 29 Nov 2021 19:31:58 GMT</lastBuildDate><atom:link href="https://symbioquine.net/rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2021. All rights reserved.]]></copyright><item><title><![CDATA[Off-grid lead acid battery charging]]></title><description><![CDATA[Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it…]]></description><link>https://symbioquine.net/2021-11-29-off-grid-lead-acid-battery-charging</link><guid isPermaLink="false">https://symbioquine.net/2021-11-29-off-grid-lead-acid-battery-charging</guid><category><![CDATA[Off-grid]]></category><category><![CDATA[Batteries]]></category><category><![CDATA[Solar]]></category><pubDate>Mon, 29 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it wasn&apos;t performing as they expected, I gained a greater appreciation for the nuances of lead acid (LA) battery charging characteristics and how they affect off-grid systems - especially those systems with insufficient solar capacity and those in less equatorial latitudes.&lt;/p&gt;
-&lt;p&gt;There are many other articles describing the care and feeding of LA batteries (&lt;a href=&quot;https://www.sevarg.net/2018/04/08/off-grid-rv-lead-acid-maintenance-charging-failure-modes/&quot;&gt;here is one of my favorites&lt;/a&gt;) so I will try to go beyond just reiterating the conventional wisdom about LA battery life being inversely proportional to the depth of discharge (DoD). I&apos;m instead going to focus on one of the most important off-grid system characteristics which I think is both crucial and often neglected. That characteristic is &lt;strong&gt;charging time&lt;/strong&gt;. (*Actually, reputable battery manufacturers often &lt;strong&gt;do&lt;/strong&gt; provide specifications/guidance that are both detailed and tailored to their products, but for whatever reason that information - and the consequences thereof - doesn&apos;t seem to be well represented more generally.*)&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net</link><image><url>https://symbioquine.net/logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Wed, 01 Dec 2021 02:50:54 GMT</lastBuildDate><atom:link href="https://symbioquine.net/rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2021. All rights reserved.]]></copyright><item><title><![CDATA[Minimal git-based docker-compose deployments]]></title><description><![CDATA[Deployment automation infrastructure is perhaps on the most crowded domains. Many of the options out there address key facets of the domain…]]></description><link>https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</link><guid isPermaLink="false">https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Tue, 30 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Deployment automation infrastructure is perhaps on the most crowded domains. Many of the options out there address key facets of the domain such as testing, QA approvals, pipeline transparency,
+rollback, zero-downtime rollouts, etc. There are also adjacent domains such as the DevOps space with tools like Puppet and Ansible.&lt;/p&gt;
+&lt;p&gt;Those tools are great when you need them, but sometimes they introduce more complexity cost than they&apos;re worth.&lt;/p&gt;
+&lt;p&gt;This recipe shows how to set up a minimal repository that will clone itself and run docker-compose on new pushes. It doesn&apos;t do a lot of the things those full-featured deployment tools do,
+but it is pretty impressive what you &lt;em&gt;can&lt;/em&gt; get with a tiny git hook and a script in the right place.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Note:&lt;/strong&gt; The pattern of calling a script in a repository from a git hook is a bit of a security risk in multi-user environments if write access on the repository are set too permissively. Please exercise caution.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&quot;prerequisites&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#prerequisites&quot; aria-label=&quot;prerequisites permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Prerequisites&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;If you&apos;re here, I&apos;m going to assume you already know to set up SSH and are confident enough to customize this recipe for your needs.&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&quot;both-target-and-development-hosts&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#both-target-and-development-hosts&quot; aria-label=&quot;both target and development hosts permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Both Target and Development Hosts&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;target-host&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#target-host&quot; aria-label=&quot;target host permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Target Host&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;docker&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;docker-compose&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;server-repository-setup-on-target-host&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#server-repository-setup-on-target-host&quot; aria-label=&quot;server repository setup on target host permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Server Repository Setup (on Target Host)&lt;/h2&gt;
+&lt;p&gt;First we&apos;ll create a &lt;a href=&quot;https://git-scm.com/book/en/v2/Git-on-the-Server-Getting-Git-on-a-Server&quot;&gt;bare repository&lt;/a&gt; on the server - feel free to replace &quot;myproject&quot; with another name (It probably can&apos;t have spaces, but I haven&apos;t tested that.);&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;ssh myuser@myserver
+git init --bare /home/myuser/myproject.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Next we&apos;ll install the git hook in that bare repository;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;echo &amp;#39;[ -d &amp;quot;/home/myuser/myproject&amp;quot; ] &amp;amp;&amp;amp; /home/myuser/myproject/deploy.sh || git clone /home/myuser/myproject.git /home/myuser/myproject &amp;amp;&amp;amp; /home/myuser/myproject/deploy.sh&amp;#39; &amp;gt; /home/myuser/myproject.git/hooks/post-receive &amp;amp;&amp;amp; chmod +x /home/myuser/myproject.git/hooks/post-receive&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;At this point, the repository can be pushed to and it will automatically clone itself and execute a &lt;code class=&quot;language-text&quot;&gt;deploy.sh&lt;/code&gt; script that must be placed at the root of the repository.&lt;/p&gt;
+&lt;h2 id=&quot;client-repository-setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#client-repository-setup&quot; aria-label=&quot;client repository setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Client Repository Setup&lt;/h2&gt;
+&lt;p&gt;Clone the repository and &lt;code class=&quot;language-text&quot;&gt;cd&lt;/code&gt; into it;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;git clone myuser@myserver:/home/myuser/myproject.git myproject
+cd myproject&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Create the &lt;code class=&quot;language-text&quot;&gt;deploy.sh&lt;/code&gt; file with the following contents;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;#!/bin/bash
+set -e
+
+cd /home/myuser/myproject
+
+STAGE=&amp;quot;$1&amp;quot;
+
+if [ &amp;quot;$STAGE&amp;quot; == &amp;quot;plan&amp;quot; ]; then
+    ./deploy.sh execute
+    exit 0;
+fi
+
+if [ &amp;quot;$STAGE&amp;quot; == &amp;quot;execute&amp;quot; ]; then
+    docker-compose up -d --build --remove-orphans
+    exit 0;
+fi
+
+echo pwd=`pwd`
+echo GIT_DIR=${GIT_DIR}
+unset GIT_DIR
+git pull
+./deploy.sh plan&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Create the &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; file with the following contents;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;version: &amp;#39;3.7&amp;#39;
+services:
+
+  hello-world:
+    image: armhf/hello-world&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Mark the &lt;code class=&quot;language-text&quot;&gt;deploy.sh&lt;/code&gt; script as executable and commit/push the initial change;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;chmod +x deploy.sh 
+git add -A
+git commit -m &amp;quot;Initial commit&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You should then see something like this;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ git commit -m &amp;quot;Initial commit&amp;quot;
+[master (root-commit) f90ae92] Initial commit
+ 2 files changed, 28 insertions(+)
+ create mode 100755 deploy.sh
+ create mode 100644 docker-compose.yml
+$ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 530 bytes | 530.00 KiB/s, done.
+Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+remote: Cloning into &amp;#39;/home/myuser/myproject&amp;#39;...
+remote: done.
+remote: pwd=/home/myuser/myproject
+remote: GIT_DIR=.
+remote: Already up to date.
+remote: Creating network &amp;quot;myproject_default&amp;quot; with the default driver
+remote: Pulling hello-world (armhf/hello-world:)...
+remote: latest: Pulling from armhf/hello-world
+remote: Digest: sha256:9701edc932223a66e49dd6c894a11db8c2cf4eccd1414f1ec105a623bf16b426
+remote: Status: Downloaded newer image for armhf/hello-world:latest
+remote: Creating myproject_hello-world_1 ... 
+remote: Creating myproject_hello-world_1 ... done
+To myserver:/home/myuser/myproject.git
+ * [new branch]      master -&amp;gt; master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Congratulations, you&apos;ve now bootstrapped some minimal git-based deployment infrastructure. Use it wisely and build something cool!&lt;/p&gt;
+&lt;h2 id=&quot;related-work&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#related-work&quot; aria-label=&quot;related work permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Related Work&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://kenfavors.com/code/using-git-to-deploy-code/&quot;&gt;https://kenfavors.com/code/using-git-to-deploy-code/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://ricardoanderegg.com/posts/git-push-deployments-docker-tags/&quot;&gt;https://ricardoanderegg.com/posts/git-push-deployments-docker-tags/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Off-grid lead acid battery charging]]></title><description><![CDATA[Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it…]]></description><link>https://symbioquine.net/2021-11-29-off-grid-lead-acid-battery-charging</link><guid isPermaLink="false">https://symbioquine.net/2021-11-29-off-grid-lead-acid-battery-charging</guid><category><![CDATA[Off-grid]]></category><category><![CDATA[Batteries]]></category><category><![CDATA[Solar]]></category><pubDate>Mon, 29 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it wasn&apos;t performing as they expected, I gained a greater appreciation for the nuances of lead acid (LA) battery charging characteristics and how they affect off-grid systems - especially those systems with insufficient solar capacity and those in less equatorial latitudes.&lt;/p&gt;
+&lt;p&gt;There are many other articles describing the care and feeding of LA batteries (&lt;a href=&quot;https://www.sevarg.net/2018/04/08/off-grid-rv-lead-acid-maintenance-charging-failure-modes/&quot;&gt;here is one of my favorites&lt;/a&gt;) so I will try to go beyond just reiterating the conventional wisdom about LA battery life being inversely proportional to the depth of discharge (DoD). I&apos;m instead going to focus on one of the most important off-grid system characteristics which I think is both crucial and often neglected. That characteristic is &lt;strong&gt;charging time&lt;/strong&gt;. (&lt;em&gt;Actually, reputable battery manufacturers often &lt;strong&gt;do&lt;/strong&gt; provide specifications/guidance that are both detailed and tailored to their products, but for whatever reason that information - and the consequences thereof - doesn&apos;t seem to be well represented more generally.&lt;/em&gt;)&lt;/p&gt;
 &lt;p&gt;All batteries have maximum rates at which they can safely charge. For LA batteries, the charging rates are usually specified by the manufacturer either in terms of a number of hours in bulk and absorption charging or in terms of a graph showing the state of charge (SoC) vs charging power and time. Regardless of how much solar capacity a system has, it will tend not to fully charge the batteries unless the system has long enough with sufficient power for charging from a given average DoD.&lt;/p&gt;
 &lt;p&gt;You&apos;ve probably seen the characteristic charge curve of LA batteries where the charging amperage - and total power - tapers off dramatically before the batteries are full.&lt;/p&gt;
 &lt;p&gt;&lt;span
