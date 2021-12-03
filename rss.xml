@@ -1,4 +1,289 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net</link><image><url>https://symbioquine.net/logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Wed, 01 Dec 2021 03:10:09 GMT</lastBuildDate><atom:link href="https://symbioquine.net/rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2021. All rights reserved.]]></copyright><item><title><![CDATA[Minimal git-based docker-compose deployments]]></title><description><![CDATA[Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain…]]></description><link>https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</link><guid isPermaLink="false">https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Tue, 30 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain such as testing, QA approvals, pipeline transparency,
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net</link><image><url>https://symbioquine.net/logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Fri, 03 Dec 2021 16:09:34 GMT</lastBuildDate><atom:link href="https://symbioquine.net/rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2021. All rights reserved.]]></copyright><item><title><![CDATA[DIY Adapters for DeWalt Batteries]]></title><description><![CDATA[While I don't intend to make this blog reviews-focused, some products have the potential to be foundational to a wide range of alternative…]]></description><link>https://symbioquine.net/2021-12-03-dewalt-diy-adapters</link><guid isPermaLink="false">https://symbioquine.net/2021-12-03-dewalt-diy-adapters</guid><category><![CDATA[Batteries]]></category><pubDate>Fri, 03 Dec 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;While I don&apos;t intend to make this blog reviews-focused, some products have the potential to be foundational to a wide range of alternative DIY projects which I would like to help
+make more viable.&lt;/p&gt;
+&lt;p&gt;Many DIY projects require a simple reliable high-capacity power source. While dedicated or built-in batteries sometimes make sense, sourcing high-quality cells is often difficult.
+Also, as the number of such devices with dedicated batteries grows, so does the effort needed to keep them all charged on a semi-regular basis. As such, small tool batteries -
+like those for power tools by Makita, DeWalt, etc - make a compelling option. Here I will review 3 similar DeWalt adapters so other folks can hopefully just buy the one that best
+suites their project best.&lt;/p&gt;
+&lt;p&gt;There are probably at least a dozen of these adapters on Amazon, and even more listings on Ebay and AliExpress. I picked 2 of the ones with the most/best reviews and one that seemed
+to be newly listed but which claimed to have over current/voltage/charge/heating protection.&lt;/p&gt;
+&lt;p&gt;Since the adapters are so similar, I&apos;ll refer to them by the names Andy, Bart, and Curt.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Andy: &quot;Power Wheels Adaptor for dewalt 20V&quot; &lt;a href=&quot;https://www.amazon.com/dp/B09C5CXVDM&quot;&gt;https://www.amazon.com/dp/B09C5CXVDM&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$12.58 - 4.6 stars with 1,114 ratings and 82 reviews&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bart: &quot;Upgraded Battery Adapter for dewalt&quot; &lt;a href=&quot;https://www.amazon.com/dp/B08JLYPY4F&quot;&gt;https://www.amazon.com/dp/B08JLYPY4F&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$8.09 - 4.5 stars with 3 ratings and zero reviews&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Curt: &quot;Battery Adapter for Dewalt 20V&quot; &lt;a href=&quot;https://www.amazon.com/dp/B08GWZ8LR6&quot;&gt;https://www.amazon.com/dp/B08GWZ8LR6&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$10.58 - 4.6 stars with 498 ratings and 40 reviews&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/84e2d39ae133f6d966e62e8c33a5983c/3d0d4/overview.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 42.77456647398844%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAJABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB0rSGapAP/8QAGRAAAwADAAAAAAAAAAAAAAAAAQIQAxIT/9oACAEBAAEFAg7cw51OQxp//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGxAAAQQDAAAAAAAAAAAAAAAAAQACESAhMVH/2gAIAQEABj8CJLc8UuEFbp//xAAaEAACAwEBAAAAAAAAAAAAAAAAARExQRBR/9oACAEBAAE/IXYSteiNlOD7sjOXZ//aAAwDAQACAAMAAAAQqy//xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAIAQMBAT8Qla//xAAWEQEBAQAAAAAAAAAAAAAAAAABEBH/2gAIAQIBAT8QTZ//xAAcEAEAAwACAwAAAAAAAAAAAAABABExECFBgfD/2gAIAQEAAT8QbvaLjH3uBedpHiWVZWBkeLSf/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Overview showing the adapters above from left to right&quot;
+        title=&quot;Overview showing the adapters above from left to right&quot;
+        src=&quot;/static/84e2d39ae133f6d966e62e8c33a5983c/15ec7/overview.jpg&quot;
+        srcset=&quot;/static/84e2d39ae133f6d966e62e8c33a5983c/9ac50/overview.jpg 173w,
+/static/84e2d39ae133f6d966e62e8c33a5983c/8d48c/overview.jpg 345w,
+/static/84e2d39ae133f6d966e62e8c33a5983c/15ec7/overview.jpg 690w,
+/static/84e2d39ae133f6d966e62e8c33a5983c/af659/overview.jpg 1035w,
+/static/84e2d39ae133f6d966e62e8c33a5983c/89b2d/overview.jpg 1380w,
+/static/84e2d39ae133f6d966e62e8c33a5983c/3d0d4/overview.jpg 2991w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;breakdown&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#breakdown&quot; aria-label=&quot;breakdown permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Breakdown&lt;/h2&gt;
+&lt;h3 id=&quot;andy&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#andy&quot; aria-label=&quot;andy permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Andy&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c38b9753e07a47b149eeb2cfa9184fa7/e5166/andy.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 117.34104046242774%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAXABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQb/xAAWAQEBAQAAAAAAAAAAAAAAAAABAAL/2gAMAwEAAhADEAAAAWfJCXQIGdV6wmmC/8QAGxAAAgIDAQAAAAAAAAAAAAAAAQIDBAAREyP/2gAIAQEAAQUCtSYGdTXcmOY7kJysfOSuS3B9xIUT/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPwEf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAGxAAAgIDAQAAAAAAAAAAAAAAAAERIRAyQYH/2gAIAQEABj8CSNi7Hj0lM4Qf/8QAGxAAAwEAAwEAAAAAAAAAAAAAAAERITFBgaH/2gAIAQEAAT8hdU5FcYkOvCjeq9PeQt0z6QxczpksUIOL2f/aAAwDAQACAAMAAAAQJAi9/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAEQEf/aAAgBAwEBPxBFa//EABgRAAIDAAAAAAAAAAAAAAAAAAABEBEx/9oACAECAQE/EB6XH//EABwQAQEBAQEAAwEAAAAAAAAAAAERADEhQVFxkf/aAAgBAQABPxBLLUxCry/zSgWVSMwNQlT6m5l87HweYGQJ9mKgdSU1XgfmTCx4XOEFLHK7/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;andy&quot;
+        title=&quot;andy&quot;
+        src=&quot;/static/c38b9753e07a47b149eeb2cfa9184fa7/15ec7/andy.jpg&quot;
+        srcset=&quot;/static/c38b9753e07a47b149eeb2cfa9184fa7/9ac50/andy.jpg 173w,
+/static/c38b9753e07a47b149eeb2cfa9184fa7/8d48c/andy.jpg 345w,
+/static/c38b9753e07a47b149eeb2cfa9184fa7/15ec7/andy.jpg 690w,
+/static/c38b9753e07a47b149eeb2cfa9184fa7/af659/andy.jpg 1035w,
+/static/c38b9753e07a47b149eeb2cfa9184fa7/e5166/andy.jpg 1200w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt; &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/4da114d4d21762dd9d7189e63a3620e8/e5166/andy_internals.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 87.86127167630057%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAASABQDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAIDBAUG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgH/2gAMAwEAAhADEAAAAYyrwyelcwXqyCNwK//EABsQAQACAwEBAAAAAAAAAAAAAAIAAQMEMiEx/9oACAEBAAEFAm1bGz4MpZeFT5evwo6qY+f/xAAWEQEBAQAAAAAAAAAAAAAAAAARASD/2gAIAQMBAT8Bi4//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AR//xAAbEAACAwADAAAAAAAAAAAAAAAAARARMSFhcf/aAAgBAQAGPwJq+CnvSLQ8Gh+xkf/EABoQAAMBAQEBAAAAAAAAAAAAAAABESExcWH/2gAIAQEAAT8hSLByCOn6Cwc4Wsnp0lzqY89pyN60vgiSxI//2gAMAwEAAgADAAAAENDgfv/EABcRAQEBAQAAAAAAAAAAAAAAAAEAECH/2gAIAQMBAT8QASvIwv/EABYRAQEBAAAAAAAAAAAAAAAAAAEAEP/aAAgBAgEBPxBCcb//xAAcEAEBAQADAAMAAAAAAAAAAAABEQAhMUFRceH/2gAIAQEAAT8QkIMIO4LgJYvpJfi60KGqRHJW7dkeXD83GcnWUEn4bp+8Ipr1Fx0Ar0b/2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;andy internals&quot;
+        title=&quot;andy internals&quot;
+        src=&quot;/static/4da114d4d21762dd9d7189e63a3620e8/15ec7/andy_internals.jpg&quot;
+        srcset=&quot;/static/4da114d4d21762dd9d7189e63a3620e8/9ac50/andy_internals.jpg 173w,
+/static/4da114d4d21762dd9d7189e63a3620e8/8d48c/andy_internals.jpg 345w,
+/static/4da114d4d21762dd9d7189e63a3620e8/15ec7/andy_internals.jpg 690w,
+/static/4da114d4d21762dd9d7189e63a3620e8/af659/andy_internals.jpg 1035w,
+/static/4da114d4d21762dd9d7189e63a3620e8/e5166/andy_internals.jpg 1200w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h4 id=&quot;pros&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#pros&quot; aria-label=&quot;pros permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Pros&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Attaches to battery securely, detaches only when battery release button is pressed, and appears to be making a solid electrical connection with battery terminals&lt;/li&gt;
+&lt;li&gt;Plastic and mechanical portion is sturdy and fits together cleanly&lt;/li&gt;
+&lt;li&gt;Has a very simple &quot;circuit board&quot; inside to hold the contacts - this could be convenient for some kinds of mods&lt;/li&gt;
+&lt;li&gt;Wires are very well soldered to board&lt;/li&gt;
+&lt;li&gt;200 C Fluorinated Ethylene Propylene (FEP) wire insulation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;cons&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#cons&quot; aria-label=&quot;cons permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Cons&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;No strain relief for wires&lt;/li&gt;
+&lt;li&gt;Thin contacts&lt;/li&gt;
+&lt;li&gt;Wire does not match description - actually is 14 awg not 12 awg&lt;/li&gt;
+&lt;li&gt;Wire has a relatively low strand count and is pretty stiff - not ideal for applications which will experience frequent bending&lt;/li&gt;
+&lt;li&gt;3g over advertised weight of 70g&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;bart&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#bart&quot; aria-label=&quot;bart permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Bart&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/4669ae42152866d0b34afb043cc6313d/e5166/bart.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 116.1849710982659%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAXABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/aAAwDAQACEAMQAAABt5ktUttCHtAjWE//xAAdEAACAgIDAQAAAAAAAAAAAAACAwEEABITFCEj/9oACAEBAAEFArLJWPZZij5Aee7i9ytHyZWgpKsyMWOgf//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8BH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8BH//EABwQAAICAgMAAAAAAAAAAAAAAAABITEQERJBYv/aAAgBAQAGPwKLJSOVD85bXZBo/8QAHBABAAMBAAMBAAAAAAAAAAAAAQARITFBYXGB/9oACAEBAAE/IRF6UAdltwBwnpcIHjqU4v8ASZ/sfoHWkzAU+5VPan//2gAMAwEAAgADAAAAEEQfwP/EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8QH//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAECAQE/ECn/xAAeEAEAAwABBQEAAAAAAAAAAAABABEhQTFRcbHB4f/aAAgBAQABPxDf4WoC0cb3YGDRQnJ44yLssDVSQcjZQrWmgO+2xM0w6IM6ocvkbA1jk8/kJuGqzPs9R3wupJ//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;bart&quot;
+        title=&quot;bart&quot;
+        src=&quot;/static/4669ae42152866d0b34afb043cc6313d/15ec7/bart.jpg&quot;
+        srcset=&quot;/static/4669ae42152866d0b34afb043cc6313d/9ac50/bart.jpg 173w,
+/static/4669ae42152866d0b34afb043cc6313d/8d48c/bart.jpg 345w,
+/static/4669ae42152866d0b34afb043cc6313d/15ec7/bart.jpg 690w,
+/static/4669ae42152866d0b34afb043cc6313d/af659/bart.jpg 1035w,
+/static/4669ae42152866d0b34afb043cc6313d/e5166/bart.jpg 1200w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt; &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e1f53b828aed78372cf37abb512f54e7/e5166/bart_internals.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 74.56647398843931%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/aAAwDAQACEAMQAAAB2psGVxKFf//EABoQAAMAAwEAAAAAAAAAAAAAAAECAwAEERL/2gAIAQEAAQUCrZgW2m6l/a1k5yk2UyBC/wD/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREiAiExMv/aAAgBAQAGPwLKqhaPKJaHU4cP/8QAGhABAAIDAQAAAAAAAAAAAAAAAQARITFBYf/aAAgBAQABPyE+EsHuZZ1TRuYgjdYYnQ72JKK8HfIxHqf/2gAMAwEAAgADAAAAECfP/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oACAEDAQE/ENR//8QAFhEBAQEAAAAAAAAAAAAAAAAAAAEx/9oACAECAQE/EF1//8QAGxABAAMBAAMAAAAAAAAAAAAAAQARITFBUdH/2gAIAQEAAT8QQnCFboPkARElJaUvIVCCRhMYKmivbgDe8h6TzY6acyf/2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;bart internals&quot;
+        title=&quot;bart internals&quot;
+        src=&quot;/static/e1f53b828aed78372cf37abb512f54e7/15ec7/bart_internals.jpg&quot;
+        srcset=&quot;/static/e1f53b828aed78372cf37abb512f54e7/9ac50/bart_internals.jpg 173w,
+/static/e1f53b828aed78372cf37abb512f54e7/8d48c/bart_internals.jpg 345w,
+/static/e1f53b828aed78372cf37abb512f54e7/15ec7/bart_internals.jpg 690w,
+/static/e1f53b828aed78372cf37abb512f54e7/af659/bart_internals.jpg 1035w,
+/static/e1f53b828aed78372cf37abb512f54e7/e5166/bart_internals.jpg 1200w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h4 id=&quot;pros-1&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#pros-1&quot; aria-label=&quot;pros 1 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Pros&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Attaches to battery securely, detaches only when battery release button is pressed, and appears to be making a solid electrical connection with battery terminals&lt;/li&gt;
+&lt;li&gt;Plastic and mechanical portion is sturdy and fits together cleanly&lt;/li&gt;
+&lt;li&gt;Held together with nicer T9 screws compared with the philips screws found on Andy&lt;/li&gt;
+&lt;li&gt;Slightly thicker contacts than Andy&lt;/li&gt;
+&lt;li&gt;Right at advertised weight of 67g&lt;/li&gt;
+&lt;li&gt;Actually has 12 gauge wire - as advertised&lt;/li&gt;
+&lt;li&gt;Wires are directly soldered to the flat battery contacts - Could potentially increase overall ampacity&lt;/li&gt;
+&lt;li&gt;200 C Fluorinated Ethylene Propylene (FEP) wire insulation&lt;/li&gt;
+&lt;li&gt;Has some internal space that could be used in some projects to house additional small electronics&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;cons-1&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#cons-1&quot; aria-label=&quot;cons 1 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Cons&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;No strain relief for wires - though they do feed through small holes in a way that may provide some protection compared to Andy&lt;/li&gt;
+&lt;li&gt;Product images falsely advertise the adapter as having &quot;Multiple Protection&quot; (&quot;Over-current&quot;, &quot;Overvoltage&quot;, &quot;Over-Charge&quot;, and &quot;Over-Heating&quot;), but actually there is nothing in the adapter that would provide that&lt;/li&gt;
+&lt;li&gt;Contacts are embedded in floating a piece of plastic and rely on the assembled case to capture them in the right position&lt;/li&gt;
+&lt;li&gt;Wire has a relatively low strand count and is pretty stiff - not ideal for applications which will experience frequent bending&lt;/li&gt;
+&lt;li&gt;I partially stripped two of the screws doing the investigation for this review - probably not really the fault of the adapter since they&apos;re not meant to be taken apart very many times&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;curt&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#curt&quot; aria-label=&quot;curt permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Curt&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/10b998d783fc5d5fe5ccda872c9d478e/e5166/curt.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 126.58959537572254%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBAL/xAAXAQADAQAAAAAAAAAAAAAAAAABAgMA/9oADAMBAAIQAxAAAAG2K4hTazqLn5sDchh//8QAGhABAQACAwAAAAAAAAAAAAAAAQACEBEhMf/aAAgBAQABBQJ6MHEeZvIZnbr/xAAXEQADAQAAAAAAAAAAAAAAAAABEBEh/9oACAEDAQE/AQMVX//EABcRAAMBAAAAAAAAAAAAAAAAAAECEBH/2gAIAQIBAT8BZjsK7P/EABkQAAMAAwAAAAAAAAAAAAAAAAABECAhQf/aAAgBAQAGPwI04xXuP//EABsQAQEAAgMBAAAAAAAAAAAAAAEAITEQEUFR/9oACAEBAAE/IUT9gmpr9WFgWGauDsmhqHfsa4u7/9oADAMBAAIAAwAAABCPIvH/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oACAEDAQE/EDephhlt/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQARIf/aAAgBAgEBPxAmCOkK2DL/xAAfEAEAAwEAAAcAAAAAAAAAAAABABEhMUFRYXGRsfD/2gAIAQEAAT8QUK1jvlDqK0er9vzAWxyF2yq2I0A3le00bxjYRHagmrDxYyaBdon3Tidp/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;curt&quot;
+        title=&quot;curt&quot;
+        src=&quot;/static/10b998d783fc5d5fe5ccda872c9d478e/15ec7/curt.jpg&quot;
+        srcset=&quot;/static/10b998d783fc5d5fe5ccda872c9d478e/9ac50/curt.jpg 173w,
+/static/10b998d783fc5d5fe5ccda872c9d478e/8d48c/curt.jpg 345w,
+/static/10b998d783fc5d5fe5ccda872c9d478e/15ec7/curt.jpg 690w,
+/static/10b998d783fc5d5fe5ccda872c9d478e/af659/curt.jpg 1035w,
+/static/10b998d783fc5d5fe5ccda872c9d478e/e5166/curt.jpg 1200w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h4 id=&quot;pros-2&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#pros-2&quot; aria-label=&quot;pros 2 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Pros&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Attaches to battery securely, detaches only when battery release button is pressed, and appears to be making a solid electrical connection with battery terminals&lt;/li&gt;
+&lt;li&gt;Plastic and mechanical portion is sturdy and appears to be a single piece - not counting the contacts and wire&lt;/li&gt;
+&lt;li&gt;Actually has 12 guage wire - as advertised&lt;/li&gt;
+&lt;li&gt;Wire is a high strand count which should hold up better to frequent bending than the other adapters&lt;/li&gt;
+&lt;li&gt;Wires are directly soldered to the flat battery contacts - Could potentially increase overall ampacity&lt;/li&gt;
+&lt;li&gt;Wire insulation says 200 C and is nice and flexible/rubbery - might be silicone&lt;/li&gt;
+&lt;li&gt;Has nice countersunk screw holes for attaching the adapter to things&lt;/li&gt;
+&lt;li&gt;Lightest of the adapters at 56g&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;cons-2&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#cons-2&quot; aria-label=&quot;cons 2 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Cons&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;No strain relief for wires&lt;/li&gt;
+&lt;li&gt;Thin contacts - similar to those on Andy but a little more fragile due to their smaller size and reduced contact area with the case of the adapter&lt;/li&gt;
+&lt;li&gt;Contacts are a little loose and could potentially pull out of the adapter&lt;/li&gt;
+&lt;li&gt;Product images could be misleading since they contradict the description and suggest the adapter comes with 14 awg wire (it is actually 12 awg - see &quot;pro&quot; above)&lt;/li&gt;
+&lt;li&gt;6g over advertised weight of 50g&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;other-take-aways&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#other-take-aways&quot; aria-label=&quot;other take aways permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Other Take-aways&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;None of these adapters have a means of low voltage discharge cutoff - and &lt;a href=&quot;https://www.sevarg.net/2017/04/22/dewalt-20v-max-60ah-pack-teardown/&quot;&gt;neither do the batteries&lt;/a&gt; - so that will need to be part of any projects that use these adapters.&lt;/li&gt;
+&lt;li&gt;None of these adapters have connections for the other balance leads so they can&apos;t be (safely) used for charging.&lt;/li&gt;
+&lt;li&gt;None of these adapters are suitable for rough applications due to the lack of strain relief and wiring that will stand up to abuse.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;conclusion&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#conclusion&quot; aria-label=&quot;conclusion permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Andy is nice if you plan to mod the adapter and put additional electronics inside - especially for low-current applications or if you plan to redo the wiring anyway&lt;/li&gt;
+&lt;li&gt;Bart is probably the best value and likely has the highest continuous current carrying capacity&lt;/li&gt;
+&lt;li&gt;Curt is probably the best for applications where weight matters or where the wire will experience frequent bending&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bottom line:&lt;/strong&gt; For most projects I would probably pick Bart.&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Minimal git-based docker-compose deployments]]></title><description><![CDATA[Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain…]]></description><link>https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</link><guid isPermaLink="false">https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Tue, 30 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain such as testing, QA approvals, pipeline transparency,
 rollback, zero-downtime rollouts, etc. There are also adjacent domains such as the DevOps space with tools like Puppet and Ansible.&lt;/p&gt;
 &lt;p&gt;Those tools are great when you need them, but sometimes they introduce more complexity cost than they&apos;re worth.&lt;/p&gt;
 &lt;p&gt;This recipe shows how to set up a minimal repository that will clone itself and run docker-compose on new pushes. It doesn&apos;t do a lot of the things those full-featured deployment tools do,
@@ -617,7 +902,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/bbb861be4270e4bc10bd42e87f44cc35/1cd85/wiring_rs485_adapter.jpg&quot;
+    href=&quot;/static/28b837c10e420a05db53e24b4bce4e4b/1cd85/wiring_rs485_adapter.jpg&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
@@ -630,13 +915,13 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Detail image showing one approach for grounding the RS485 adapter&quot;
         title=&quot;Detail image showing one approach for grounding the RS485 adapter&quot;
-        src=&quot;/static/bbb861be4270e4bc10bd42e87f44cc35/15ec7/wiring_rs485_adapter.jpg&quot;
-        srcset=&quot;/static/bbb861be4270e4bc10bd42e87f44cc35/9ac50/wiring_rs485_adapter.jpg 173w,
-/static/bbb861be4270e4bc10bd42e87f44cc35/8d48c/wiring_rs485_adapter.jpg 345w,
-/static/bbb861be4270e4bc10bd42e87f44cc35/15ec7/wiring_rs485_adapter.jpg 690w,
-/static/bbb861be4270e4bc10bd42e87f44cc35/af659/wiring_rs485_adapter.jpg 1035w,
-/static/bbb861be4270e4bc10bd42e87f44cc35/89b2d/wiring_rs485_adapter.jpg 1380w,
-/static/bbb861be4270e4bc10bd42e87f44cc35/1cd85/wiring_rs485_adapter.jpg 2058w&quot;
+        src=&quot;/static/28b837c10e420a05db53e24b4bce4e4b/15ec7/wiring_rs485_adapter.jpg&quot;
+        srcset=&quot;/static/28b837c10e420a05db53e24b4bce4e4b/9ac50/wiring_rs485_adapter.jpg 173w,
+/static/28b837c10e420a05db53e24b4bce4e4b/8d48c/wiring_rs485_adapter.jpg 345w,
+/static/28b837c10e420a05db53e24b4bce4e4b/15ec7/wiring_rs485_adapter.jpg 690w,
+/static/28b837c10e420a05db53e24b4bce4e4b/af659/wiring_rs485_adapter.jpg 1035w,
+/static/28b837c10e420a05db53e24b4bce4e4b/89b2d/wiring_rs485_adapter.jpg 1380w,
+/static/28b837c10e420a05db53e24b4bce4e4b/1cd85/wiring_rs485_adapter.jpg 2058w&quot;
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
