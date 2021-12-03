@@ -1,0 +1,9 @@
+version: "3"
+services:
+  client:
+    build:
+      context: ./
+    volumes:
+      - ./content:/app/content
+    ports:
+      - "8000:8000"
