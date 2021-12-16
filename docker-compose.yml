@@ -5,5 +5,6 @@ services:
       context: ./
     volumes:
       - ./content:/app/content
+      - ./src:/app/src
     ports:
       - "8000:8000"
