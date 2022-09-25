@@ -1,4 +1,4 @@
-FROM node:14.18.2-buster
+FROM node:14.18.2-bullseye
 
 RUN apt update && apt upgrade -y && \
     apt install gcc g++ make python git libc6-dev build-essential libpng-dev \

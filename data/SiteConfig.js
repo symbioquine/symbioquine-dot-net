@@ -16,7 +16,7 @@ const config = {
   userTwitter: 'Symbioquine', // Optionally renders "Follow Me" in the Bio segment.
   userGitHub: 'symbioquine', // Optionally renders "Follow Me" in the Bio segment.
   userLocation: 'WA, USA', // User location to display in the author segment.
-  copyright: 'Copyright © 2021. All rights reserved.', // Copyright string for the footer of the website and RSS feed.
+  copyright: 'Copyright © 2022. All rights reserved.', // Copyright string for the footer of the website and RSS feed.
   themeColor: '#c62828', // Used for setting manifest and progress theme colors.
   backgroundColor: 'red' // Used for setting manifest background color.
 }
