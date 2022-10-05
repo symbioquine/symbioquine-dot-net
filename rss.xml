@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net</link><image><url>https://symbioquine.net/logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Wed, 28 Sep 2022 13:37:48 GMT</lastBuildDate><atom:link href="https://symbioquine.net/rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2022. All rights reserved.]]></copyright><item><title><![CDATA[Building Drupal Modules with GitHub Actions]]></title><description><![CDATA[Sometimes CI architectures are more a product of circumstance than we'd like. The strategy described in this post is a prime example of that…]]></description><link>https://symbioquine.net/2022-09-28-github-actions-drupal-module-build-step</link><guid isPermaLink="false">https://symbioquine.net/2022-09-28-github-actions-drupal-module-build-step</guid><category><![CDATA[Software Engineering]]></category><pubDate>Wed, 28 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Sometimes CI architectures are more a product of circumstance than we&apos;d like. The strategy described in this post is a prime example of that.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net/</link><image><url>https://symbioquine.net//logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net/</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Wed, 05 Oct 2022 17:08:05 GMT</lastBuildDate><atom:link href="https://symbioquine.net//rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2022. All rights reserved.]]></copyright><item><title><![CDATA[Building Drupal Modules with GitHub Actions]]></title><description><![CDATA[Sometimes CI architectures are more a product of circumstance than we'd like. The strategy described in this post is a prime example of that…]]></description><link>https://symbioquine.net//2022-09-28-github-actions-drupal-module-build-step</link><guid isPermaLink="false">https://symbioquine.net//2022-09-28-github-actions-drupal-module-build-step</guid><category><![CDATA[Software Engineering]]></category><pubDate>Wed, 28 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Sometimes CI architectures are more a product of circumstance than we&apos;d like. The strategy described in this post is a prime example of that.&lt;/p&gt;
 &lt;p&gt;Many Drupal modules don&apos;t require a build step, typically they are just some PHP, yaml, and maybe some Twig/JS/CSS files all checked-in. Those
 files then directly form the contents of the release for the module.&lt;/p&gt;
 &lt;p&gt;Drupal.org&apos;s infrastructure is tailored to that style of module. Internally Drupal.org uses an instance of GitLab to host the source code for
@@ -11,15 +11,15 @@ need an arbitrary build step. The example I am going to use in this post is a mo
 &lt;p&gt;To start off, create a new GitHub repository and Drupal.org module project. For clarity and convenience, I recommend making the GitHub repository
 name and the Drupal.org project &quot;short name&quot; the same. For that, the name needs to follow the Drupal
 &lt;a href=&quot;https://www.drupal.org/docs/creating-custom-modules/naming-and-placing-your-drupal-module&quot;&gt;conventions for module naming&lt;/a&gt; - basically just
-alphanumeric characters and underscores. I&apos;ve chosen to call my example for this tutorial &quot;symbioquine&lt;em&gt;dot&lt;/em&gt;net&lt;em&gt;built&lt;/em&gt;drupal&lt;em&gt;module&lt;/em&gt;example&quot;.&lt;/p&gt;
+alphanumeric characters and underscores. I&apos;ve chosen to call my example for this tutorial &quot;symbioquine_dot_net_built_drupal_module_example&quot;.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example&quot;&gt;https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.drupal.org/project/symbioquine_dot_net_built_drupal_module_example&quot;&gt;https://www.drupal.org/project/symbioquine_dot_net_built_drupal_module_example&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I let GitHub generate a default branch, readme, and &lt;code class=&quot;language-text&quot;&gt;.gitignore&lt;/code&gt; file. Then I renamed the branch from &lt;code class=&quot;language-text&quot;&gt;main&lt;/code&gt; to &lt;code class=&quot;language-text&quot;&gt;release&lt;/code&gt; - this will be important
 later since our GitHub workflow will update that branch using the results of our automated build when we push specific tags to the development branch.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;git clone https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example
-git checkout -b development&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; clone https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; checkout &lt;span class=&quot;token parameter variable&quot;&gt;-b&lt;/span&gt; development&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textsrcmainjscode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textsrcmainjscode&quot; aria-label=&quot;code classlanguage textsrcmainjscode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;src/main.js&lt;/code&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// Wait until all attached Drupal libraries get loaded&lt;/span&gt;
 document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;addEventListener&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;DOMContentLoaded&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -27,35 +27,35 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textpackagejsoncode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textpackagejsoncode&quot; aria-label=&quot;code classlanguage textpackagejsoncode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;symbioquine_dot_net_built_drupal_module_example&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;1.0.0&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;description&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;A module showing how to automatically build JS code with Webpack and push releases to Drupal.org&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;license&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;GPL-3.0-or-later&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;repository&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token string&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;git&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;token string&quot;&gt;&quot;url&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example.git&quot;&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;symbioquine_dot_net_built_drupal_module_example&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;version&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;1.0.0&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;description&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;A module showing how to automatically build JS code with Webpack and push releases to Drupal.org&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;license&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;GPL-3.0-or-later&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;repository&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;git&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;url&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example.git&quot;&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token string&quot;&gt;&quot;build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack --config webpack.config.js --mode production&quot;&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;build&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;webpack --config webpack.config.js --mode production&quot;&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;devDependencies&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token string&quot;&gt;&quot;webpack&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^5.36.0&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;token string&quot;&gt;&quot;webpack-cli&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^4.6.0&quot;&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;devDependencies&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;webpack&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^5.36.0&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;webpack-cli&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^4.6.0&quot;&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;token string&quot;&gt;&quot;dependencies&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;dependencies&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textwebpackconfigjscode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textwebpackconfigjscode&quot; aria-label=&quot;code classlanguage textwebpackconfigjscode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;webpack.config.js&lt;/code&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  entry&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token string&quot;&gt;&apos;built_drupal_module_example&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;token string&quot;&gt;&apos;import&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;__dirname&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;/src/main.js&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&apos;built_drupal_module_example&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token string-property property&quot;&gt;&apos;import&apos;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;__dirname&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;/src/main.js&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  output&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    path&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;__dirname&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;/drupal_module_src/js&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-    filename&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;[name].js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-    clean&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;__dirname&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;/drupal_module_src/js&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;[name].js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;clean&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textdrupal_module_srccomposerjsoncode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textdrupal_module_srccomposerjsoncode&quot; aria-label=&quot;code classlanguage textdrupal_module_srccomposerjsoncode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;drupal_module_src/composer.json&lt;/code&gt;&lt;/h4&gt;
@@ -83,13 +83,15 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
 &lt;span class=&quot;token key atrule&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; This module shows an example of how to automatically build JS code with Webpack and push releases to Drupal.org
 &lt;span class=&quot;token key atrule&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; module
 &lt;span class=&quot;token key atrule&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Example
-&lt;span class=&quot;token key atrule&quot;&gt;core_version_requirement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ^9&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span class=&quot;token key atrule&quot;&gt;core_version_requirement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ^9
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_examplelibrariesymlcode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_examplelibrariesymlcode&quot; aria-label=&quot;code classlanguage textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_examplelibrariesymlcode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;drupal_module_src/symbioquine_dot_net_built_drupal_module_example.libraries.yml&lt;/code&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;built_drupal_module_example&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;token key atrule&quot;&gt;js&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;token key atrule&quot;&gt;js/built_drupal_module_example.js&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
       &lt;span class=&quot;token key atrule&quot;&gt;preprocess&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;false&lt;/span&gt;
-      &lt;span class=&quot;token key atrule&quot;&gt;minified&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;minified&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean important&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_exampleroutingymlcode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_exampleroutingymlcode&quot; aria-label=&quot;code classlanguage textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_exampleroutingymlcode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;drupal_module_src/symbioquine_dot_net_built_drupal_module_example.routing.yml&lt;/code&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;symbioquine_dot_net_built_drupal_module_example_page.content&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;token key atrule&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;/symbioquine_dot_net_built_drupal_module_example&apos;&lt;/span&gt;
@@ -97,12 +99,14 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
     &lt;span class=&quot;token key atrule&quot;&gt;_controller&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; symbioquine_dot_net_built_drupal_module_example.top_level_controller&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;content
     &lt;span class=&quot;token key atrule&quot;&gt;_title&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Example Page&apos;&lt;/span&gt;
   &lt;span class=&quot;token key atrule&quot;&gt;requirements&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;token key atrule&quot;&gt;_permission&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;access content&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;_permission&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;access content&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_exampleservicesymlcode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_exampleservicesymlcode&quot; aria-label=&quot;code classlanguage textdrupal_module_srcsymbioquine_dot_net_built_drupal_module_exampleservicesymlcode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;drupal_module_src/symbioquine_dot_net_built_drupal_module_example.services.yml&lt;/code&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yml&quot;&gt;&lt;pre class=&quot;language-yml&quot;&gt;&lt;code class=&quot;language-yml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;token key atrule&quot;&gt;symbioquine_dot_net_built_drupal_module_example.top_level_controller&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;token key atrule&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Drupal\symbioquine_dot_net_built_drupal_module_example\Controller\ExamplePageController
-    &lt;span class=&quot;token key atrule&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&quot;code-classlanguage-textdrupal_module_srcsrccontrollerexamplepagecontrollerphpcode&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#code-classlanguage-textdrupal_module_srcsrccontrollerexamplepagecontrollerphpcode&quot; aria-label=&quot;code classlanguage textdrupal_module_srcsrccontrollerexamplepagecontrollerphpcode permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;drupal_module_src/src/Controller/ExamplePageController.php&lt;/code&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;php&quot;&gt;&lt;pre class=&quot;language-php&quot;&gt;&lt;code class=&quot;language-php&quot;&gt;&lt;span class=&quot;token php language-php&quot;&gt;&lt;span class=&quot;token delimiter important&quot;&gt;&amp;lt;?php&lt;/span&gt;
 
@@ -113,25 +117,25 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
 &lt;span class=&quot;token comment&quot;&gt;/**
  * Defines ExamplePageController class.
  */&lt;/span&gt;
-&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ExamplePageController&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ControllerBase&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name-definition class-name&quot;&gt;ExamplePageController&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ControllerBase&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
 
   &lt;span class=&quot;token comment&quot;&gt;/**
    * Constructs a new ExamplePageController object.
    *
    */&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;__construct&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function-definition function&quot;&gt;__construct&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 
   &lt;span class=&quot;token comment&quot;&gt;/**
    * Top-level handler for demo page requests.
    */&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function-definition function&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
-      &lt;span class=&quot;token single-quoted-string string&quot;&gt;&apos;app&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;token single-quoted-string string&quot;&gt;&apos;#markup&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token single-quoted-string string&quot;&gt;&apos;&amp;lt;div id=&quot;example-page-app&quot;&gt;&amp;lt;/div&gt;&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;token single-quoted-string string&quot;&gt;&apos;#attached&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
-          &lt;span class=&quot;token single-quoted-string string&quot;&gt;&apos;library&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
-            &lt;span class=&quot;token single-quoted-string string&quot;&gt;&apos;symbioquine_dot_net_built_drupal_module_example/built_drupal_module_example&apos;&lt;/span&gt;
+      &lt;span class=&quot;token string single-quoted-string&quot;&gt;&apos;app&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;token string single-quoted-string&quot;&gt;&apos;#markup&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token string single-quoted-string&quot;&gt;&apos;&amp;lt;div id=&quot;example-page-app&quot;&gt;&amp;lt;/div&gt;&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token string single-quoted-string&quot;&gt;&apos;#attached&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+          &lt;span class=&quot;token string single-quoted-string&quot;&gt;&apos;library&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+            &lt;span class=&quot;token string single-quoted-string&quot;&gt;&apos;symbioquine_dot_net_built_drupal_module_example/built_drupal_module_example&apos;&lt;/span&gt;
           &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
         &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
       &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
@@ -212,35 +216,36 @@ document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span c
           git config user.email github-actions@github.com
           git remote add drupal-dot-org git@git.drupal.org:project/symbioquine_dot_net_built_drupal_module_example.git
           git fetch drupal-dot-org
-          git push --tags --force drupal-dot-org &apos;HEAD:refs/heads/release&apos;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+          git push --tags --force drupal-dot-org &apos;HEAD:refs/heads/release&apos;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;test-build&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#test-build&quot; aria-label=&quot;test build permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Test Build&lt;/h3&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;npm install
-npm run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;npm&lt;/span&gt; run build&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;drupalorg-gitlab-deploy-key-setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#drupalorg-gitlab-deploy-key-setup&quot; aria-label=&quot;drupalorg gitlab deploy key setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Drupal.org GitLab Deploy Key Setup&lt;/h3&gt;
 &lt;p&gt;Add a new Deploy key to the Drupal.org GitLab for the project. For my example this is at &lt;code class=&quot;language-text&quot;&gt;https://git.drupalcode.org/project/symbioquine_dot_net_built_drupal_module_example/-/settings/repository&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;I&apos;ve been using the RSA key generation instructions from &lt;a href=&quot;https://git.drupalcode.org/help/user/ssh&quot;&gt;https://git.drupalcode.org/help/user/ssh&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;e.g.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ ssh-keygen -t rsa -b 2048 -C &amp;quot;symbioquine_dot_net_built_drupal_module_example drupal.org Gitlab deploy key&amp;quot;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;$ ssh-keygen &lt;span class=&quot;token parameter variable&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;token parameter variable&quot;&gt;-b&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2048&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-C&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;symbioquine_dot_net_built_drupal_module_example drupal.org Gitlab deploy key&quot;&lt;/span&gt;
 Generating public/private rsa key pair.
-Enter file in which to save the key (/home/symbioquine/.ssh/id_rsa): /home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example
-Enter passphrase (empty for no passphrase):
+Enter &lt;span class=&quot;token function&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;which&lt;/span&gt; to save the key &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;/home/symbioquine/.ssh/id_rsa&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;: /home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example
+Enter passphrase &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;empty &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; no passphrase&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;:
 Enter same passphrase again:
-Your identification has been saved in /home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example
-Your public key has been saved in /home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example.pub
+Your identification has been saved &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; /home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example
+Your public key has been saved &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; /home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example.pub
 The key fingerprint is:
 SHA256:YmArT17dAmWhTRKPYL6DHrBBktL6pC1hbTf1f+edWaI symbioquine_dot_net_built_drupal_module_example drupal.org Gitlab deploy key
-The key&amp;#39;s randomart image is:
-+---[RSA 2048]----+
-|.+  o o.=.       |
-|= .o . @         |
-|+.. + = +        |
-|o=.= * o o       |
-|o*= * = S o      |
-|o.o* + . . . ....|
-| .. o       ..o.=|
-|            E  +.|
-|                 |
-+----[SHA256]-----+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+The key&apos;s randomart image is:
++---&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;RSA &lt;span class=&quot;token number&quot;&gt;2048&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;----+
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;.+  o o.&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;.       &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; .o &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt; @         &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;+&lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt; + &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; +        &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;token assign-left variable&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;.&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; * o o       &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;o*&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; * &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; S o      &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;o.o* + &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt; o       &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;o.&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;            E  +.&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;                 &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt;
++----&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;SHA256&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;-----+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Then I copied the contents of &lt;code class=&quot;language-text&quot;&gt;/home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example.pub&lt;/code&gt; into a new Drupal.org GitLab deploy key. Make sure
 to check the box that says &quot;Grant write permissions to this key&quot; since we&apos;ll be using that key to push releases into the Drupal.org GitLab repo.&lt;/p&gt;
 &lt;h3 id=&quot;github-secrets-setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#github-secrets-setup&quot; aria-label=&quot;github secrets setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;GitHub Secrets Setup&lt;/h3&gt;
@@ -248,21 +253,21 @@ to check the box that says &quot;Grant write permissions to this key&quot; since
 &lt;p&gt;First I copied the contents of &lt;code class=&quot;language-text&quot;&gt;/home/symbioquine/.ssh/symbioquine_dot_net_built_drupal_module_example&lt;/code&gt; into a secret named &lt;code class=&quot;language-text&quot;&gt;DRUPAL_DOT_ORG_SSH_PRIVATE_KEY&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Next I copied the output of running &lt;code class=&quot;language-text&quot;&gt;ssh-keyscan git.drupal.org&lt;/code&gt; into a secret named &lt;code class=&quot;language-text&quot;&gt;DRUPAL_DOT_ORG_SSH_KNOWN_HOSTS&lt;/code&gt;.&lt;/p&gt;
 &lt;h3 id=&quot;tag-and-push-initial-release&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#tag-and-push-initial-release&quot; aria-label=&quot;tag and push initial release permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Tag and Push Initial Release&lt;/h3&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;echo &amp;quot;node_modules&amp;quot; &amp;gt;&amp;gt; .gitignore
-echo &amp;quot;drupal_module_src/js&amp;quot; &amp;gt;&amp;gt; .gitignore
-git add -A
-git commit -m &amp;quot;Release 1.0.0&amp;quot;
-git tag unbuilt-v1.0.0
-git push --atomic origin HEAD:development unbuilt-v1.0.0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;node_modules&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&gt;&lt;/span&gt; .gitignore
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;drupal_module_src/js&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&gt;&lt;/span&gt; .gitignore
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-A&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Release 1.0.0&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; tag unbuilt-v1.0.0
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; push &lt;span class=&quot;token parameter variable&quot;&gt;--atomic&lt;/span&gt; origin HEAD:development unbuilt-v1.0.0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;create-drupalorg-release&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#create-drupalorg-release&quot; aria-label=&quot;create drupalorg release permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Create Drupal.org release&lt;/h3&gt;
 &lt;p&gt;Once the GitHub Actions workflow completes a new &lt;code class=&quot;language-text&quot;&gt;1.0.0&lt;/code&gt; tag will have been created on the Drupal.org GitLab for the project.&lt;/p&gt;
 &lt;p&gt;Then I go to the project page on Drupal.org and create the corresponding release.&lt;/p&gt;
 &lt;h3 id=&quot;conclusion&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#conclusion&quot; aria-label=&quot;conclusion permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Now we have a Drupal module with JS code built via GitHub actions and installable via the &lt;code class=&quot;language-text&quot;&gt;drupal/&lt;/code&gt; composer prefix;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;composer require drupal/symbioquine_dot_net_built_drupal_module_example
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;composer&lt;/span&gt; require drupal/symbioquine_dot_net_built_drupal_module_example
 drush en symbioquine_dot_net_built_drupal_module_example&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Once installed, the example page can be accessed under the Drupal site at &lt;code class=&quot;language-text&quot;&gt;/symbioquine_dot_net_built_drupal_module_example&lt;/code&gt;. e.g. &lt;a href=&quot;https://drupal.example.com/symbioquine_dot_net_built_drupal_module_example&quot;&gt;https://drupal.example.com/symbioquine_dot_net_built_drupal_module_example&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;The full source of this example can be found in the GitHub repository at &lt;a href=&quot;https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example&quot;&gt;https://github.com/symbioquine/symbioquine&lt;em&gt;dot&lt;/em&gt;net&lt;em&gt;built&lt;/em&gt;drupal&lt;em&gt;module&lt;/em&gt;example&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The full source of this example can be found in the GitHub repository at &lt;a href=&quot;https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example&quot;&gt;https://github.com/symbioquine/symbioquine_dot_net_built_drupal_module_example&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;For further reference, here are a number of other modules that I maintain which use variations of this same strategy;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/symbioquine/farmOS_land_drawing_tool&quot;&gt;https://github.com/symbioquine/farmOS_land_drawing_tool&lt;/a&gt;&lt;/li&gt;
@@ -272,7 +277,7 @@ drush en symbioquine_dot_net_built_drupal_module_example&lt;/code&gt;&lt;/pre&gt
 &lt;li&gt;&lt;a href=&quot;https://github.com/symbioquine/farm_map_google&quot;&gt;https://github.com/symbioquine/farm_map_google&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/symbioquine/drupal_jupyterlite&quot;&gt;https://github.com/symbioquine/drupal_jupyterlite&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Have fun and build some cool stuff!&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Local-first self-hosting]]></title><description><![CDATA[While "The Cloud" has dramatically changed the landscape of hosted computing, there are still some scenarios where it is compelling to self…]]></description><link>https://symbioquine.net/2022-09-25-local-first-self-hosting</link><guid isPermaLink="false">https://symbioquine.net/2022-09-25-local-first-self-hosting</guid><category><![CDATA[Software Engineering]]></category><pubDate>Sun, 25 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;While &quot;The Cloud&quot; has dramatically changed the landscape of hosted computing, there are still some scenarios where it is compelling to self-host and particularly self-host on ones own hardware and network.&lt;/p&gt;
+&lt;p&gt;Have fun and build some cool stuff!&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Local-first self-hosting]]></title><description><![CDATA[While "The Cloud" has dramatically changed the landscape of hosted computing, there are still some scenarios where it is compelling to self…]]></description><link>https://symbioquine.net//2022-09-25-local-first-self-hosting</link><guid isPermaLink="false">https://symbioquine.net//2022-09-25-local-first-self-hosting</guid><category><![CDATA[Software Engineering]]></category><pubDate>Sun, 25 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;While &quot;The Cloud&quot; has dramatically changed the landscape of hosted computing, there are still some scenarios where it is compelling to self-host and particularly self-host on ones own hardware and network.&lt;/p&gt;
 &lt;p&gt;Prominent among these scenarios is the case where the the application needs to be resilient to outages such that it remains locally accessible even if the wider Internet is not available.&lt;/p&gt;
 &lt;p&gt;One way to achieve that while still making the application accessible via the public Internet is to reverse tunnel ports 80 and 443 from a remote server server to the local one. Then use a local gateway firewall to
 route IP packets bound for the remote server and those ports to the local server directly. In this way devices on the local network will transparently get the benefits of local network performance/availability without
@@ -280,22 +285,22 @@ needing to differentiate at the DNS/IP layer - which causes issues for devices l
 &lt;h3 id=&quot;remote-server-setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#remote-server-setup&quot; aria-label=&quot;remote server setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Remote Server Setup&lt;/h3&gt;
 &lt;p&gt;The only things that should be needed are to enable your SSH key in the remote server&apos;s &lt;code class=&quot;language-text&quot;&gt;authorized_keys&lt;/code&gt; file and to enable OpenSSH&apos;s &lt;code class=&quot;language-text&quot;&gt;GatewayPorts&lt;/code&gt; option.&lt;/p&gt;
 &lt;p&gt;That might look something like this;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;cat cumulus.pub &amp;gt;&amp;gt; ~/.ssh/authorized_keys
-sudo sh -c &amp;quot;grep -q &amp;#39;^[^#]*GatewayPorts&amp;#39; /etc/ssh/sshd_config &amp;amp;&amp;amp; sed -i &amp;#39;/^[^#]*GatewayPorts[[:space:]]no/c\GatewayPorts yes&amp;#39; /etc/ssh/sshd_config || echo &amp;#39;GatewayPorts yes&amp;#39; &amp;gt;&amp;gt; /etc/ssh/sshd_config&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; cumulus.pub &lt;span class=&quot;token operator&quot;&gt;&gt;&gt;&lt;/span&gt; ~/.ssh/authorized_keys
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;grep -q &apos;^[^#]*GatewayPorts&apos; /etc/ssh/sshd_config &amp;amp;&amp;amp; sed -i &apos;/^[^#]*GatewayPorts[[:space:]]no/c\GatewayPorts yes&apos; /etc/ssh/sshd_config || echo &apos;GatewayPorts yes&apos; &gt;&gt; /etc/ssh/sshd_config&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;I would also recommend disabling &lt;code class=&quot;language-text&quot;&gt;ChallengeResponseAuthentication&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;PasswordAuthentication&lt;/code&gt; in OpenSSH;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;sudo sh -c &amp;quot;grep -q &amp;#39;ChallengeResponseAuthentication&amp;#39; /etc/ssh/sshd_config &amp;amp;&amp;amp; sed -i &amp;#39;/^[^#]*ChallengeResponseAuthentication[[:space:]]yes.*/c\ChallengeResponseAuthentication no&amp;#39; /etc/ssh/sshd_config || echo &amp;#39;ChallengeResponseAuthentication no&amp;#39; &amp;gt;&amp;gt; /etc/ssh/sshd_config&amp;quot;
-sudo sh -c &amp;quot;grep -q &amp;#39;^[^#]*PasswordAuthentication&amp;#39; /etc/ssh/sshd_config &amp;amp;&amp;amp; sed -i &amp;#39;/^[^#]*PasswordAuthentication[[:space:]]yes/c\PasswordAuthentication no&amp;#39; /etc/ssh/sshd_config || echo &amp;#39;PasswordAuthentication no&amp;#39; &amp;gt;&amp;gt; /etc/ssh/sshd_config&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;grep -q &apos;ChallengeResponseAuthentication&apos; /etc/ssh/sshd_config &amp;amp;&amp;amp; sed -i &apos;/^[^#]*ChallengeResponseAuthentication[[:space:]]yes.*/c\ChallengeResponseAuthentication no&apos; /etc/ssh/sshd_config || echo &apos;ChallengeResponseAuthentication no&apos; &gt;&gt; /etc/ssh/sshd_config&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;grep -q &apos;^[^#]*PasswordAuthentication&apos; /etc/ssh/sshd_config &amp;amp;&amp;amp; sed -i &apos;/^[^#]*PasswordAuthentication[[:space:]]yes/c\PasswordAuthentication no&apos; /etc/ssh/sshd_config || echo &apos;PasswordAuthentication no&apos; &gt;&gt; /etc/ssh/sshd_config&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id=&quot;local-server-setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#local-server-setup&quot; aria-label=&quot;local server setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Local Server Setup&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;Note: This assumes there is a folder &lt;code class=&quot;language-text&quot;&gt;certs/&lt;/code&gt; with &lt;code class=&quot;language-text&quot;&gt;fullchain.pem&lt;/code&gt; and &lt;code class=&quot;language-text&quot;&gt;privkey.pem&lt;/code&gt; files for the &quot;mysite.example.com&quot; domain and also that there is an OpenSSH private key for the remote host in a file named &lt;code class=&quot;language-text&quot;&gt;cumulus.privkey&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;docker-compose.yml&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;version: &amp;#39;3.7&amp;#39;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;version: &apos;3.7&apos;
 services:
 
   www:
     image: crccheck/hello-world
     restart: always
     expose:
-      - &amp;#39;8000&amp;#39;
+      - &apos;8000&apos;
 
   proxy:
     depends_on:
@@ -303,11 +308,11 @@ services:
     image: nginx:latest
     restart: always
     volumes:
-      - &amp;#39;./nginx.conf:/etc/nginx/nginx.conf&amp;#39;
-      - &amp;#39;./certs/mysite.example.com:/etc/nginx/certs/mysite.example.com&amp;#39;
+      - &apos;./nginx.conf:/etc/nginx/nginx.conf&apos;
+      - &apos;./certs/mysite.example.com:/etc/nginx/certs/mysite.example.com&apos;
     ports:
-      - &amp;#39;80:8080&amp;#39;
-      - &amp;#39;443:8443&amp;#39;
+      - &apos;80:8080&apos;
+      - &apos;443:8443&apos;
 
   autossh-forward-proxy-http-to-cumulus:
     image: jnovack/autossh:2.0.0
@@ -322,7 +327,7 @@ services:
       - SSH_TARGET_PORT=80
     restart: always
     privileged: true
-    network_mode: &amp;quot;host&amp;quot;
+    network_mode: &quot;host&quot;
     volumes:
       - ./cumulus.privkey:/id_rsa
 
@@ -339,7 +344,7 @@ services:
       - SSH_TARGET_PORT=443
     restart: always
     privileged: true
-    network_mode: &amp;quot;host&amp;quot;
+    network_mode: &quot;host&quot;
     volumes:
       - ./cumulus.privkey:/id_rsa&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;nginx.conf&lt;/strong&gt;&lt;/p&gt;
@@ -390,7 +395,7 @@ http {
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;/ip dns static
 add address=123.123.123.123 name=mysite.example.com ttl=5m
 /ip firewall nat
-add action=masquerade chain=srcnat comment=&amp;quot;defconf: masquerade&amp;quot; ipsec-policy=out,none out-interface-list=WAN
+add action=masquerade chain=srcnat comment=&quot;defconf: masquerade&quot; ipsec-policy=out,none out-interface-list=WAN
 add action=dst-nat chain=dstnat dst-address=123.123.123.123 dst-port=80,443 protocol=tcp to-addresses=192.168.88.32
 add action=src-nat chain=srcnat protocol=tcp src-address=192.168.88.32 src-port=80,443 to-addresses=123.123.123.123
 add action=masquerade chain=srcnat dst-address=192.168.88.0/24 src-address=192.168.88.0/24
@@ -409,7 +414,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 75.72254335260115%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAC4jAAAuIwF4pT92AAAByElEQVQ4y6WTSZOaUBSF+f8/wpUbtZwtXWgUymiDaHU5lJazgXRAFBz3J5ybokM6aTMtThXvXvjeuQPKcDKE/qRju92i2+0imUwinU4jm80ik8kgn8+jWq1KTtd1GIaBSqUicZ51/SmM9VAqfYBar0Exng2YPRPL5RKj0Ug+6Pf7ME0TvV4vlInBYCAitNVqQVVVtNttaJom4lnTVHQ6H6F0QgAhq9VKXG42G3ler9dyiW19wmw2w/F4xO12w/V6/UGXy+W7wrPyPBxjOp0KxLIs+L6Pw+GAl5fPcPceHC+AH8LO5zNOp9NvpXTDHkwmE8znc3HIm3w/kLPjeljbHvb7PVzXlcuCIBC9CyyXy2g2m9Ibgr8BfQES4jpfxLltW+KcOZb/LpDTjKDj8ViATCwWCziOIwDGIsgjdwLM5XKo1WoCpEP2iiKMDne7nTjkywQT+NBhsVgMd6iEer3+WjJLY8me5wlQpm3bAmOMeT7TfVyMKYlEAqlUShaZu3a/38UZgRxG/PbI/dvVobhS4rBQKKDRaLz2kMk45FdOHknh78UeRlOOgJGbv5X0kP9qfG3iJf7JMv80ZQ7krcN/dSl7GF/s/wV+BYkHPukM4C+JAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 75.72254335260115%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAC4jAAAuIwF4pT92AAABwklEQVQ4y62UWY+iUBSE+f9/wiefXGFMTIhbIjBiHJG0W8cl2ho2UUB9r0mdDJ2ZHttMJ/NQOXCA71bde4Livkxg2zZ2ux36/T6KxSJKpRIqlYrUWq2GZrMJ0zRFhmFA0zTpS88wYBgWVFVHR29C+f5jgOFwiNVqhel0ivF4jMlkAsdxMHYcqbx3XVfeI9CyLAwGA6n5QpZlynPFsm2MRiNsNhtxud1u5ZqVixwPb1gul7hcLrjf77jdbk+lOO4LFouFQA6HA5IkwSmOcTweEUYxvChBmiRI01SeEfxMSt80Jep8PhdXWZYhjmO8vi7hBxE2bwF8z4PnedLPPyT8kRTtm4ZWq4VOp4PZbIbr9SofMmYYhggDX9xS7J/PZ9GnwHK5jEaj8Q6kQzpYr9cIgkAgWZZKzSN/BhNgvV6Xseh2uxI73ytGpENuw36/lx4Xo7tncIXzRKiu6++RCWLkKIrk5OmWkQk4nU5/7OVfh1IoFGSAq9WqzBtHw/d9GRkC6fijuOhHcWQEqKoq2u22RM4dJr/GhOJL+UH8ixS6+30Pc2CuRw6fSRwS2Ov1HgK/KoU/Ac7hI4dfdScOeRiE/S/gTzCcQAhxfgrKAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -423,6 +428,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -439,7 +445,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 35.260115606936424%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAC4jAAAuIwF4pT92AAAA9klEQVQoz42Qy2qEUBBE/f+PEQQXk6WbER/IHTPoUkTj+xUVURQqdsMdZEggi0N1V3eXFxXxEPA8D4ZhwDRNOI4D27ZZZW1Z1gvqpee6LnzfP/dsiIcP825CEacRRRHSNEWWZWjbFk3ToK5r1qqquJZQT5RliaIokOc517JXbh83PD+fKMoCX2cgHdGAFrquY5XBBM1kUBzH/JAkSc77En3fQ1FVFUIILMuC4XtgnecZ0zRh2zZW8tZ1Zcg7jgP7vjNU05ygngPpP4zjyC8i6EvvekXuXZEzRdM0BEHAgWQMw/Ar18C/dghF13WEYfgKlAfv+l9+AEfUBPEKJ4zTAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 35.260115606936424%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAC4jAAAuIwF4pT92AAAA60lEQVQoz42PyYqEQBBE/f9/EQQvHr3Y44Z26V0EsV1xw10hhkwQ7J4ZmMMjMpKoqCrJFz5834eu6zAMA7Ztw7Is1ms2TfONa+c4DoIgYP98Cnw9TEi+EIiiCEmS4JW+UNc1U1UVa1mWPF+Qv8jzHFmWoSgKlGXBXtI0DUIINmma8iGaiaZpWO9FVwkRxzE/hLjykizLcF0X0zSh6zvM84xxHDEMA/Z955l267pi2zbW8zxxHAdD87IsnCHPhZ7ncQHdQLRt+0PvfObuGUlRFP4yFdKi67pfuRf+lSEkVVURhiH6vn878Kn/5RtsUwRVvkuRUQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -455,6 +461,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -471,7 +478,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 356.6473988439306%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 356.6473988439306%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -485,6 +492,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -501,7 +509,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 356.6473988439306%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 356.6473988439306%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,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&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -515,6 +523,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -531,7 +540,7 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 42.77456647398844%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAC4jAAAuIwF4pT92AAABaElEQVQoz21QaYvCUAx8//+fiCDiB2uxWGXFrh88WlHBGw90t7WHFcEDZ53A2y2yhSGZl2SajHIcB4vFAtVqFblcDvl8XlAqlVCpVGAYhoA5e9vtNprNJgqFAmzbFu44nzDKNizTgHJdF5PJBNPpFPP5HP1+H4PBAMPhEJ7nodfr/Qv26djtdl8/+UCr1YLiMDeczWYimqYpzuezgLnmOs/ybIyiCGEYQnmuJ4KbzQa+70shCAIcj0fJ4zgWzjxJkt86h9nDqDlrSq/O7dbrtYjz1PF4jN1uJ2/kvEDXR6MROp0OaNdyuRSLaNd2u4Uql8tiLpsOhwOSNJHIbXnO/X7Hfr8XcV7Brfjx/fl84vF44Ha7Sbxer1CWZaHRaMgGcZzAD3x8f3+JAIfpDwUJns+ztW+Xy0XedI3vqlgsolarYbVa4XQ6IQpfvkWxNGijmWf5O1jTuTJNE/V6/U/wNaSRFcryd2RrP9mPjUMfpclZAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 42.77456647398844%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAC4jAAAuIwF4pT92AAABZ0lEQVQoz21Q2YrCQBCc//8TEUR8SAyKUTaY9cEjERW88UDXRJMYETywlmoYN8gOFF3V3VN0t3JdF/P5HJVKBblcDvl8XlAqlVAul2GapoCcva1WC47joFAowLZt0a77DdOwUbVMKM/zMB6PMZlMMJvN0Ov10O/3MRgM4Ps+ut3uv2Cfjp1OB47zhWazCcXPnHA6nYppmqa4XC4Ccq01z+psjKIIp9MJyvd8MVyv1wiCQAphGOJ4PAqP41g0eZIk7zo/s4dRa9aUHp3TrVYrMeeqo9EI2+1WctTcQNeHwyHa7TZ4rsViISfiuTabDZRhGHJcNu33eyRpIpHTcp3H44Hdbifm3IJT8TH/er3wfD5xv98l3m43qGq1ikajIRPEcYIgDHA4/IgBP/M+NCS4PtfWd7ter5LTNeZVsVhErVbDcrnE+XxGdIoQR7E06EOTZ/UnWNNcWZaFer3+ZxhFb2SNsvoT2dov2Y+NQ7IaAB8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -545,9 +554,10 @@ add distance=1 dst-address=123.123.123.123/32 gateway=192.168.88.1&lt;/code&gt;&
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[DIY Adapters for DeWalt Batteries]]></title><description><![CDATA[While I don't intend to make this blog reviews-focused, some products have the potential to be foundational to a wide range of alternative…]]></description><link>https://symbioquine.net/2021-12-03-dewalt-diy-adapters</link><guid isPermaLink="false">https://symbioquine.net/2021-12-03-dewalt-diy-adapters</guid><category><![CDATA[Batteries]]></category><pubDate>Fri, 03 Dec 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;While I don&apos;t intend to make this blog reviews-focused, some products have the potential to be foundational to a wide range of alternative DIY projects which I would like to help
+    &lt;/span&gt;&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[DIY Adapters for DeWalt Batteries]]></title><description><![CDATA[While I don't intend to make this blog reviews-focused, some products have the potential to be foundational to a wide range of alternative…]]></description><link>https://symbioquine.net//2021-12-03-dewalt-diy-adapters</link><guid isPermaLink="false">https://symbioquine.net//2021-12-03-dewalt-diy-adapters</guid><category><![CDATA[Batteries]]></category><pubDate>Fri, 03 Dec 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;While I don&apos;t intend to make this blog reviews-focused, some products have the potential to be foundational to a wide range of alternative DIY projects which I would like to help
 make more viable.&lt;/p&gt;
 &lt;p&gt;Many DIY projects require a simple reliable high-capacity power source. While dedicated or built-in batteries sometimes make sense, sourcing high-quality cells is often difficult.
 Also, as the number of such devices with dedicated batteries grows, so does the effort needed to keep them all charged on a semi-regular basis. As such, small tool batteries -
@@ -557,20 +567,17 @@ suites their project best.&lt;/p&gt;
 to be newly listed but which claimed to have over current/voltage/charge/heating protection.&lt;/p&gt;
 &lt;p&gt;Since the adapters are so similar, I&apos;ll refer to them by the names Andy, Bart, and Curt.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Andy: &quot;Power Wheels Adaptor for dewalt 20V&quot; &lt;a href=&quot;https://www.amazon.com/dp/B09C5CXVDM&quot;&gt;https://www.amazon.com/dp/B09C5CXVDM&lt;/a&gt;&lt;/p&gt;
+&lt;li&gt;Andy: &quot;Power Wheels Adaptor for dewalt 20V&quot; &lt;a href=&quot;https://www.amazon.com/dp/B09C5CXVDM&quot;&gt;https://www.amazon.com/dp/B09C5CXVDM&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;$12.58 - 4.6 stars with 1,114 ratings and 82 reviews&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Bart: &quot;Upgraded Battery Adapter for dewalt&quot; &lt;a href=&quot;https://www.amazon.com/dp/B08JLYPY4F&quot;&gt;https://www.amazon.com/dp/B08JLYPY4F&lt;/a&gt;&lt;/p&gt;
+&lt;li&gt;Bart: &quot;Upgraded Battery Adapter for dewalt&quot; &lt;a href=&quot;https://www.amazon.com/dp/B08JLYPY4F&quot;&gt;https://www.amazon.com/dp/B08JLYPY4F&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;$8.09 - 4.5 stars with 3 ratings and zero reviews&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Curt: &quot;Battery Adapter for Dewalt 20V&quot; &lt;a href=&quot;https://www.amazon.com/dp/B08GWZ8LR6&quot;&gt;https://www.amazon.com/dp/B08GWZ8LR6&lt;/a&gt;&lt;/p&gt;
+&lt;li&gt;Curt: &quot;Battery Adapter for Dewalt 20V&quot; &lt;a href=&quot;https://www.amazon.com/dp/B08GWZ8LR6&quot;&gt;https://www.amazon.com/dp/B08GWZ8LR6&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;$10.58 - 4.6 stars with 498 ratings and 40 reviews&lt;/li&gt;
 &lt;/ul&gt;
@@ -589,7 +596,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 42.77456647398844%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAJABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB0rSGapAP/8QAGRAAAwADAAAAAAAAAAAAAAAAAQIQAxIT/9oACAEBAAEFAg7cw51OQxp//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGxAAAQQDAAAAAAAAAAAAAAAAAQACESAhMVH/2gAIAQEABj8CJLc8UuEFbp//xAAaEAACAwEBAAAAAAAAAAAAAAAAARExQRBR/9oACAEBAAE/IXYSteiNlOD7sjOXZ//aAAwDAQACAAMAAAAQqy//xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAIAQMBAT8Qla//xAAWEQEBAQAAAAAAAAAAAAAAAAABEBH/2gAIAQIBAT8QTZ//xAAcEAEAAwACAwAAAAAAAAAAAAABABExECFBgfD/2gAIAQEAAT8QbvaLjH3uBedpHiWVZWBkeLSf/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 42.77456647398844%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAJABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAQL/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/2gAMAwEAAhADEAAAAaeWT5uCA//EABkQAAMAAwAAAAAAAAAAAAAAAAECEAMSE//aAAgBAQABBQIO/MOdTkMaf//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABsQAAEEAwAAAAAAAAAAAAAAAAEAAhExICJR/9oACAEBAAY/AiS3bil1q8P/xAAaEAEAAgMBAAAAAAAAAAAAAAABAEEQETFx/9oACAEBAAE/IUajSBENOiNejyVi9n//2gAMAwEAAgADAAAAELgv/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oACAEDAQE/EJWv/8QAFhEBAQEAAAAAAAAAAAAAAAAAARAR/9oACAECAQE/EE2f/8QAGRAAAwEBAQAAAAAAAAAAAAAAAAERMUHw/9oACAEBAAE/EJHmq2zPdNr+fBla3JnAzg0P/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -605,6 +612,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -623,7 +631,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 117.34104046242774%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAXABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQb/xAAWAQEBAQAAAAAAAAAAAAAAAAABAAL/2gAMAwEAAhADEAAAAWfJCXQIGdV6wmmC/8QAGxAAAgIDAQAAAAAAAAAAAAAAAQIDBAAREyP/2gAIAQEAAQUCtSYGdTXcmOY7kJysfOSuS3B9xIUT/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPwEf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAGxAAAgIDAQAAAAAAAAAAAAAAAAERIRAyQYH/2gAIAQEABj8CSNi7Hj0lM4Qf/8QAGxAAAwEAAwEAAAAAAAAAAAAAAAERITFBgaH/2gAIAQEAAT8hdU5FcYkOvCjeq9PeQt0z6QxczpksUIOL2f/aAAwDAQACAAMAAAAQJAi9/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAEQEf/aAAgBAwEBPxBFa//EABgRAAIDAAAAAAAAAAAAAAAAAAABEBEx/9oACAECAQE/EB6XH//EABwQAQEBAQEAAwEAAAAAAAAAAAERADEhQVFxkf/aAAgBAQABPxBLLUxCry/zSgWVSMwNQlT6m5l87HweYGQJ9mKgdSU1XgfmTCx4XOEFLHK7/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 117.34104046242774%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAXABQDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAMFBAb/xAAWAQEBAQAAAAAAAAAAAAAAAAABAgD/2gAMAwEAAhADEAAAAWfSJvQIJqPMJpAf/8QAHBAAAwACAwEAAAAAAAAAAAAAAQIDAAQREhQj/9oACAEBAAEFAtqhwO6mDlp2PNCc1j86a/Y+d+Zp0T//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AR//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AR//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREhEDJBgf/aAAgBAQAGPwJJGxdjx6SmcIP/xAAaEAEBAQADAQAAAAAAAAAAAAABEQAhQYGh/9oACAEBAAE/IaFSF4cUa8cRXVS73k1OnfSyLLdKBWcON73/2gAMAwEAAgADAAAAEMcAgP/EABYRAAMAAAAAAAAAAAAAAAAAAAABEP/aAAgBAwEBPxAV/8QAGBEAAgMAAAAAAAAAAAAAAAAAAAEQETH/2gAIAQIBAT8QHpcf/8QAHRABAQEAAgIDAAAAAAAAAAAAAREAITFBkVFhgf/aAAgBAQABPxC6FzoVer60SFlUGe8xYbHaXdZfuPBxrSBHzuTOtVMFUeT8zYY/OayArHSu/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -638,6 +646,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt; &lt;span
@@ -653,7 +662,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 87.86127167630057%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAASABQDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAIDBAUG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgH/2gAMAwEAAhADEAAAAYyrwyelcwXqyCNwK//EABsQAQACAwEBAAAAAAAAAAAAAAIAAQMEMiEx/9oACAEBAAEFAm1bGz4MpZeFT5evwo6qY+f/xAAWEQEBAQAAAAAAAAAAAAAAAAARASD/2gAIAQMBAT8Bi4//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AR//xAAbEAACAwADAAAAAAAAAAAAAAAAARARMSFhcf/aAAgBAQAGPwJq+CnvSLQ8Gh+xkf/EABoQAAMBAQEBAAAAAAAAAAAAAAABESExcWH/2gAIAQEAAT8hSLByCOn6Cwc4Wsnp0lzqY89pyN60vgiSxI//2gAMAwEAAgADAAAAENDgfv/EABcRAQEBAQAAAAAAAAAAAAAAAAEAECH/2gAIAQMBAT8QASvIwv/EABYRAQEBAAAAAAAAAAAAAAAAAAEAEP/aAAgBAgEBPxBCcb//xAAcEAEBAQADAAMAAAAAAAAAAAABEQAhMUFRceH/2gAIAQEAAT8QkIMIO4LgJYvpJfi60KGqRHJW7dkeXD83GcnWUEn4bp+8Ipr1Fx0Ar0b/2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 87.86127167630057%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAASABQDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAIDBAUG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/2gAMAwEAAhADEAAAAYTqxB6RzE3qzCXAf//EABwQAQACAgMBAAAAAAAAAAAAAAIAAQMEISIxMv/aAAgBAQABBQJNWhs8DKWXhU8vX+FFVTHXX//EABYRAQEBAAAAAAAAAAAAAAAAABEBIP/aAAgBAwEBPwGLj//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8BH//EABsQAAICAwEAAAAAAAAAAAAAAAABETEQIWFx/9oACAEBAAY/AnvUkO+IlFoaH7isf//EABoQAQADAQEBAAAAAAAAAAAAAAEAESExYXH/2gAIAQEAAT8hMzClQOn1C+Hmk0olsq86NRV9M5I/UX8gGQJ//9oADAMBAAIAAwAAABCw6L7/xAAXEQEBAQEAAAAAAAAAAAAAAAABABAh/9oACAEDAQE/EAEryML/xAAWEQEBAQAAAAAAAAAAAAAAAAABABD/2gAIAQIBAT8QQZxv/8QAHBABAQACAwEBAAAAAAAAAAAAAREAITFBoVHx/9oACAEBAAE/EIPZEGoF9wGzLsiS/Llg4NaEcisQ8pa3B97ibOMbT/Az0YIprtFwMCV4Jn//2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -668,6 +677,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -701,7 +711,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 116.1849710982659%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAXABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/aAAwDAQACEAMQAAABt5ktUttCHtAjWE//xAAdEAACAgIDAQAAAAAAAAAAAAACAwEEABITFCEj/9oACAEBAAEFArLJWPZZij5Aee7i9ytHyZWgpKsyMWOgf//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8BH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8BH//EABwQAAICAgMAAAAAAAAAAAAAAAABITEQERJBYv/aAAgBAQAGPwKLJSOVD85bXZBo/8QAHBABAAMBAAMBAAAAAAAAAAAAAQARITFBYXGB/9oACAEBAAE/IRF6UAdltwBwnpcIHjqU4v8ASZ/sfoHWkzAU+5VPan//2gAMAwEAAgADAAAAEEQfwP/EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8QH//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAECAQE/ECn/xAAeEAEAAwABBQEAAAAAAAAAAAABABEhQTFRcbHB4f/aAAgBAQABPxDf4WoC0cb3YGDRQnJ44yLssDVSQcjZQrWmgO+2xM0w6IM6ocvkbA1jk8/kJuGqzPs9R3wupJ//2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 116.1849710982659%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAXABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQH/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/aAAwDAQACEAMQAAABtZslYttCHtAjWE//xAAdEAACAgIDAQAAAAAAAAAAAAACAwEEABITFCEj/9oACAEBAAEFArLJWPYZGKPkB57uL3K0fJlaCk6zIxY6B//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8BH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8BH//EABwQAAICAgMAAAAAAAAAAAAAAAABEBIRMSFBYf/aAAgBAQAGPwJV2cpFtD8ltdxg/8QAGxABAAMBAQEBAAAAAAAAAAAAAQARITFhcYH/2gAIAQEAAT8hvBSg7ZtwBwnpcABdd+ynF/pM/wBj5A62YIY+yqe1P//aAAwDAQACAAMAAAAQpNjA/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPxAf/8QAFREBAQAAAAAAAAAAAAAAAAAAEBH/2gAIAQIBAT8QKf/EAB4QAQADAAICAwAAAAAAAAAAAAEAESExUUGxccHh/9oACAEBAAE/EA5EWoC11vbBASlCHJ3VZkXZYGqkYfFmhW0aA722JmmHRBJyx5fUbklgefn8glZarM+z1HfC5JP/2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -716,6 +726,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt; &lt;span
@@ -731,7 +742,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 74.56647398843931%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/aAAwDAQACEAMQAAAB2psGVxKFf//EABoQAAMAAwEAAAAAAAAAAAAAAAECAwAEERL/2gAIAQEAAQUCrZgW2m6l/a1k5yk2UyBC/wD/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAAAAREiAiExMv/aAAgBAQAGPwLKqhaPKJaHU4cP/8QAGhABAAIDAQAAAAAAAAAAAAAAAQARITFBYf/aAAgBAQABPyE+EsHuZZ1TRuYgjdYYnQ72JKK8HfIxHqf/2gAMAwEAAgADAAAAECfP/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oACAEDAQE/ENR//8QAFhEBAQEAAAAAAAAAAAAAAAAAAAEx/9oACAECAQE/EF1//8QAGxABAAMBAAMAAAAAAAAAAAAAAQARITFBUdH/2gAIAQEAAT8QQnCFboPkARElJaUvIVCCRhMYKmivbgDe8h6TzY6acyf/2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 74.56647398843931%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/aAAwDAQACEAMQAAAB0p0GVxMFf//EABoQAAMAAwEAAAAAAAAAAAAAAAECAwAEERL/2gAIAQEAAQUCpZwW2X6l/S0lQ5SbAyBC/wD/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAZEAACAwEAAAAAAAAAAAAAAAAAAREiMTL/2gAIAQEABj8CdVBiJaOUYYf/xAAcEAADAAIDAQAAAAAAAAAAAAAAAREhQTFhkaH/2gAIAQEAAT8hmbUwvSrJxcmKKdmC78GR70W+h9T2P//aAAwDAQACAAMAAAAQVA//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREx/9oACAEDAQE/EKxYf//EABYRAQEBAAAAAAAAAAAAAAAAAAABMf/aAAgBAgEBPxBdf//EABsQAQEBAQEAAwAAAAAAAAAAAAERIQAxQVHh/9oACAEBAAE/ELrA2tZ+eEQ6IlilzspBITOjAtWiXe+XXwH0HtMdpp5nf//Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -746,6 +757,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -783,7 +795,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 126.58959537572254%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBAL/xAAXAQADAQAAAAAAAAAAAAAAAAABAgMA/9oADAMBAAIQAxAAAAG2K4hTazqLn5sDchh//8QAGhABAQACAwAAAAAAAAAAAAAAAQACEBEhMf/aAAgBAQABBQJ6MHEeZvIZnbr/xAAXEQADAQAAAAAAAAAAAAAAAAABEBEh/9oACAEDAQE/AQMVX//EABcRAAMBAAAAAAAAAAAAAAAAAAECEBH/2gAIAQIBAT8BZjsK7P/EABkQAAMAAwAAAAAAAAAAAAAAAAABECAhQf/aAAgBAQAGPwI04xXuP//EABsQAQEAAgMBAAAAAAAAAAAAAAEAITEQEUFR/9oACAEBAAE/IUT9gmpr9WFgWGauDsmhqHfsa4u7/9oADAMBAAIAAwAAABCPIvH/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oACAEDAQE/EDephhlt/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQARIf/aAAgBAgEBPxAmCOkK2DL/xAAfEAEAAwEAAAcAAAAAAAAAAAABABEhMUFRYXGRsfD/2gAIAQEAAT8QUK1jvlDqK0er9vzAWxyF2yq2I0A3le00bxjYRHagmrDxYyaBdon3Tidp/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 126.58959537572254%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBAL/xAAXAQADAQAAAAAAAAAAAAAAAAABAgMA/9oADAMBAAIQAxAAAAG2K4hTazqLn5sDchh//8QAGhABAQACAwAAAAAAAAAAAAAAAQACEBEhMf/aAAgBAQABBQJ6MHEeZvIZnbr/xAAXEQADAQAAAAAAAAAAAAAAAAABEBEh/9oACAEDAQE/AQMVX//EABcRAAMBAAAAAAAAAAAAAAAAAAECEBH/2gAIAQIBAT8BZjsK7P/EABkQAAMAAwAAAAAAAAAAAAAAAAABECAhQf/aAAgBAQAGPwI04xXuP//EABsQAQEAAgMBAAAAAAAAAAAAAAEAITEQEUFR/9oACAEBAAE/IUT9wmpr9WFgWGauDsmhqHfsa4u7/9oADAMBAAIAAwAAABCcIvH/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oACAEDAQE/EDephhlt/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQARIf/aAAgBAgEBPxAmCOkK2DL/xAAfEAEAAwACAQUAAAAAAAAAAAABABEhMWFBUXGRsfD/2gAIAQEAAT8QUK1jvpCqS0dv2/MBbHIXNlVsRoBuivaaOmMhEdqCdE8sZNgu1PunCc0//9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -798,6 +810,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -832,7 +845,7 @@ to be newly listed but which claimed to have over current/voltage/charge/heating
 &lt;li&gt;Bart is probably the best value and likely has the highest continuous current carrying capacity&lt;/li&gt;
 &lt;li&gt;Curt is probably the best for applications where weight matters or where the wire will experience frequent bending&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Bottom line:&lt;/strong&gt; For most projects I would probably pick Bart.&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Minimal git-based docker-compose deployments]]></title><description><![CDATA[Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain…]]></description><link>https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</link><guid isPermaLink="false">https://symbioquine.net/2021-11-30-minimal-git-based-docker-compose-deployments</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Tue, 30 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain such as testing, QA approvals, pipeline transparency,
+&lt;p&gt;&lt;strong&gt;Bottom line:&lt;/strong&gt; For most projects I would probably pick Bart.&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Minimal git-based docker-compose deployments]]></title><description><![CDATA[Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain…]]></description><link>https://symbioquine.net//2021-11-30-minimal-git-based-docker-compose-deployments</link><guid isPermaLink="false">https://symbioquine.net//2021-11-30-minimal-git-based-docker-compose-deployments</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Tue, 30 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Deployment automation infrastructure is perhaps one the most crowded domains. Many of the options out there address key facets of the domain such as testing, QA approvals, pipeline transparency,
 rollback, zero-downtime rollouts, etc. There are also adjacent domains such as the DevOps space with tools like Puppet and Ansible.&lt;/p&gt;
 &lt;p&gt;Those tools are great when you need them, but sometimes they introduce more complexity cost than they&apos;re worth.&lt;/p&gt;
 &lt;p&gt;This recipe shows how to set up a minimal repository that will clone itself and run docker-compose on new pushes. It doesn&apos;t do a lot of the things those full-featured deployment tools do,
@@ -851,50 +864,50 @@ but it is pretty impressive what you &lt;em&gt;can&lt;/em&gt; get with a tiny gi
 &lt;/ul&gt;
 &lt;h2 id=&quot;server-repository-setup-on-target-host&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#server-repository-setup-on-target-host&quot; aria-label=&quot;server repository setup on target host permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Server Repository Setup (on Target Host)&lt;/h2&gt;
 &lt;p&gt;First we&apos;ll create a &lt;a href=&quot;https://git-scm.com/book/en/v2/Git-on-the-Server-Getting-Git-on-a-Server&quot;&gt;bare repository&lt;/a&gt; on the server - feel free to replace &quot;myproject&quot; with another name (It probably can&apos;t have spaces, but I haven&apos;t tested that.);&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;ssh myuser@myserver
-git init --bare /home/myuser/myproject.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; myuser@myserver
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; init &lt;span class=&quot;token parameter variable&quot;&gt;--bare&lt;/span&gt; /home/myuser/myproject.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Next we&apos;ll install the git hook in that bare repository;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;echo &amp;#39;[ -d &amp;quot;/home/myuser/myproject&amp;quot; ] &amp;amp;&amp;amp; /home/myuser/myproject/deploy.sh || git clone /home/myuser/myproject.git /home/myuser/myproject &amp;amp;&amp;amp; /home/myuser/myproject/deploy.sh&amp;#39; &amp;gt; /home/myuser/myproject.git/hooks/post-receive &amp;amp;&amp;amp; chmod +x /home/myuser/myproject.git/hooks/post-receive&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;[ -d &quot;/home/myuser/myproject&quot; ] &amp;amp;&amp;amp; /home/myuser/myproject/deploy.sh || git clone /home/myuser/myproject.git /home/myuser/myproject &amp;amp;&amp;amp; /home/myuser/myproject/deploy.sh&apos;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; /home/myuser/myproject.git/hooks/post-receive &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;chmod&lt;/span&gt; +x /home/myuser/myproject.git/hooks/post-receive&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;At this point, the repository can be pushed to and it will automatically clone itself and execute a &lt;code class=&quot;language-text&quot;&gt;deploy.sh&lt;/code&gt; script that must be placed at the root of the repository.&lt;/p&gt;
 &lt;h2 id=&quot;client-repository-setup&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#client-repository-setup&quot; aria-label=&quot;client repository setup permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Client Repository Setup&lt;/h2&gt;
 &lt;p&gt;Clone the repository and cd into it;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;git clone myuser@myserver:/home/myuser/myproject.git myproject
-cd myproject&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; clone myuser@myserver:/home/myuser/myproject.git myproject
+&lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; myproject&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Create the &lt;code class=&quot;language-text&quot;&gt;deploy.sh&lt;/code&gt; file with the following contents;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;#!/bin/bash
-set -e
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt;
 
-cd /home/myuser/myproject
+&lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; /home/myuser/myproject
 
-STAGE=&amp;quot;$1&amp;quot;
+&lt;span class=&quot;token assign-left variable&quot;&gt;STAGE&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$1&lt;/span&gt;&quot;&lt;/span&gt;
 
-if [ &amp;quot;$STAGE&amp;quot; == &amp;quot;plan&amp;quot; ]; then
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$STAGE&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;plan&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
     ./deploy.sh execute
-    exit 0;
-fi
+    &lt;span class=&quot;token builtin class-name&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
 
-if [ &amp;quot;$STAGE&amp;quot; == &amp;quot;execute&amp;quot; ]; then
-    docker-compose up -d --build --remove-orphans
-    exit 0;
-fi
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;$STAGE&lt;/span&gt;&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;execute&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;then&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;docker-compose&lt;/span&gt; up &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--build&lt;/span&gt; --remove-orphans
+    &lt;span class=&quot;token builtin class-name&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;fi&lt;/span&gt;
 
-echo pwd=`pwd`
-echo GIT_DIR=${GIT_DIR}
-unset GIT_DIR
-git pull
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token builtin class-name&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;`&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token assign-left variable&quot;&gt;GIT_DIR&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;${GIT_DIR}&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;unset&lt;/span&gt; GIT_DIR
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; pull
 ./deploy.sh plan&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Create the &lt;code class=&quot;language-text&quot;&gt;docker-compose.yml&lt;/code&gt; file with the following contents;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;version: &amp;#39;3.7&amp;#39;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;version: &lt;span class=&quot;token string&quot;&gt;&apos;3.7&apos;&lt;/span&gt;
 services:
 
   hello-world:
     image: armhf/hello-world&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Mark the &lt;code class=&quot;language-text&quot;&gt;deploy.sh&lt;/code&gt; script as executable and commit/push the initial change;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;chmod +x deploy.sh 
-git add -A
-git commit -m &amp;quot;Initial commit&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sh&quot;&gt;&lt;pre class=&quot;language-sh&quot;&gt;&lt;code class=&quot;language-sh&quot;&gt;&lt;span class=&quot;token function&quot;&gt;chmod&lt;/span&gt; +x deploy.sh 
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-A&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Initial commit&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;You should then see something like this;&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ git commit -m &amp;quot;Initial commit&amp;quot;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ git commit -m &quot;Initial commit&quot;
 [master (root-commit) f90ae92] Initial commit
  2 files changed, 28 insertions(+)
  create mode 100755 deploy.sh
@@ -906,12 +919,12 @@ Delta compression using up to 12 threads
 Compressing objects: 100% (4/4), done.
 Writing objects: 100% (4/4), 530 bytes | 530.00 KiB/s, done.
 Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
-remote: Cloning into &amp;#39;/home/myuser/myproject&amp;#39;...
+remote: Cloning into &apos;/home/myuser/myproject&apos;...
 remote: done.
 remote: pwd=/home/myuser/myproject
 remote: GIT_DIR=.
 remote: Already up to date.
-remote: Creating network &amp;quot;myproject_default&amp;quot; with the default driver
+remote: Creating network &quot;myproject_default&quot; with the default driver
 remote: Pulling hello-world (armhf/hello-world:)...
 remote: latest: Pulling from armhf/hello-world
 remote: Digest: sha256:9701edc932223a66e49dd6c894a11db8c2cf4eccd1414f1ec105a623bf16b426
@@ -919,13 +932,13 @@ remote: Status: Downloaded newer image for armhf/hello-world:latest
 remote: Creating myproject_hello-world_1 ... 
 remote: Creating myproject_hello-world_1 ... done
 To myserver:/home/myuser/myproject.git
- * [new branch]      master -&amp;gt; master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+ * [new branch]      master -&gt; master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Congratulations, you&apos;ve now bootstrapped some minimal git-based deployment infrastructure. Use it wisely and build something cool!&lt;/p&gt;
 &lt;h2 id=&quot;related-work&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#related-work&quot; aria-label=&quot;related work permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Related Work&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://kenfavors.com/code/using-git-to-deploy-code/&quot;&gt;https://kenfavors.com/code/using-git-to-deploy-code/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://ricardoanderegg.com/posts/git-push-deployments-docker-tags/&quot;&gt;https://ricardoanderegg.com/posts/git-push-deployments-docker-tags/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Off-grid lead acid battery charging]]></title><description><![CDATA[Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it…]]></description><link>https://symbioquine.net/2021-11-29-off-grid-lead-acid-battery-charging</link><guid isPermaLink="false">https://symbioquine.net/2021-11-29-off-grid-lead-acid-battery-charging</guid><category><![CDATA[Off-grid]]></category><category><![CDATA[Batteries]]></category><category><![CDATA[Solar]]></category><pubDate>Mon, 29 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it wasn&apos;t performing as they expected, I gained a greater appreciation for the nuances of lead acid (LA) battery charging characteristics and how they affect off-grid systems - especially those systems with insufficient solar capacity and those in less equatorial latitudes.&lt;/p&gt;
+&lt;/ul&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Off-grid lead acid battery charging]]></title><description><![CDATA[Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it…]]></description><link>https://symbioquine.net//2021-11-29-off-grid-lead-acid-battery-charging</link><guid isPermaLink="false">https://symbioquine.net//2021-11-29-off-grid-lead-acid-battery-charging</guid><category><![CDATA[Off-grid]]></category><category><![CDATA[Batteries]]></category><category><![CDATA[Solar]]></category><pubDate>Mon, 29 Nov 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Recently I spent some time analyzing an off-grid system for some less technical family members. In trying to understand and explain why it wasn&apos;t performing as they expected, I gained a greater appreciation for the nuances of lead acid (LA) battery charging characteristics and how they affect off-grid systems - especially those systems with insufficient solar capacity and those in less equatorial latitudes.&lt;/p&gt;
 &lt;p&gt;There are many other articles describing the care and feeding of LA batteries (&lt;a href=&quot;https://www.sevarg.net/2018/04/08/off-grid-rv-lead-acid-maintenance-charging-failure-modes/&quot;&gt;here is one of my favorites&lt;/a&gt;) so I will try to go beyond just reiterating the conventional wisdom about LA battery life being inversely proportional to the depth of discharge (DoD). I&apos;m instead going to focus on one of the most important off-grid system characteristics which I think is both crucial and often neglected. That characteristic is &lt;strong&gt;charging time&lt;/strong&gt;. (&lt;em&gt;Actually, reputable battery manufacturers often &lt;strong&gt;do&lt;/strong&gt; provide specifications/guidance that are both detailed and tailored to their products, but for whatever reason that information - and the consequences thereof - doesn&apos;t seem to be well represented more generally.&lt;/em&gt;)&lt;/p&gt;
 &lt;p&gt;All batteries have maximum rates at which they can safely charge. For LA batteries, the charging rates are usually specified by the manufacturer either in terms of a number of hours in bulk and absorption charging or in terms of a graph showing the state of charge (SoC) vs charging power and time. Regardless of how much solar capacity a system has, it will tend not to fully charge the batteries unless the system has long enough with sufficient power for charging from a given average DoD.&lt;/p&gt;
 &lt;p&gt;You&apos;ve probably seen the characteristic charge curve of LA batteries where the charging amperage - and total power - tapers off dramatically before the batteries are full.&lt;/p&gt;
@@ -942,7 +955,7 @@ To myserver:/home/myuser/myproject.git
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 44.50867052023121%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAC4jAAAuIwF4pT92AAAA80lEQVQoz5VSW3LDIAz0GZrYgHgax3Ha+99P1QJOSNxmJh87O+ixLBLDpC2fJ3PECNasjOPL9sN5vfGo6O/aDgMaUFhhKmti7XwpwPnrrAr6mj33yoMm3wkKJmJFlv2S+CQuIf6Ub/hXEA77IDAZ4nCZD/F3QvcnH5LNYdqyCNuW+0Cwn2FxJ0tyOXK8Zk63Rc7UFvRecMfQb/k0ajbe8/y9cFhnjuISrKyrs9QvS8Flqv8VpgoCWprQmLaluAMghqfHHS0W11xmHNYaoxgeDqFKPrBLc1mGi8IyQ7AiJ7nIRr4QvpENqcy35mzp2dmIBhz/Ah4z6H51UCj0AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 44.50867052023121%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAC4jAAAuIwF4pT92AAAA7klEQVQoz42SWW7DMAxEfYUi1Upqc+KkAXr/601BOpGXGE0+CILS8IlDezCe8G3DNsycT8YjcsH1/osyTlq/aFdhHGGwnmBc7CEXLhIccRd+nazC9rp9FtbgAm+FJiDkBKpFIfsH3wLtw7JxoQN9SuCx9qnWTUegJROGoxdlwnIdX5tc0PgXuLas+yNGOlfUnzPypW2m+sjy2orY5VbQ7jOs3ka1biPB+AOgX3qf69Ed2kBwkRFSUpjYlciTQB/1bTnTuDSUaa49J/0GfUKuFTEXhXKp+ttwbToZSU2s9yFlBE6gPJ+JRrSpjVoL8A8ygOiX5lqFkAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -956,6 +969,7 @@ To myserver:/home/myuser/myproject.git
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -974,7 +988,7 @@ To myserver:/home/myuser/myproject.git
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 72.25433526011561%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAA+wAAAPsAHpfpy9AAACPUlEQVQoz41SiXajMAzk//+qr6/bTZs0IRc32OYwh42NDUmPpNmh6QesnhCD7JGRPM5ut3t8fHx4eFgul09PT4vF4u+PIbndbler1Xq9fnl52Ww2SAIgAzBN0+12cy6Xy/l8xsfX19fHxwcw4vv7O+Ln5+cdA3x/f2MDACIy1+t1Jt/+w8AZhsFaO42w6TSdQEY5B4+UEvWsMdgx3W3echrh03Q+n7BCCInC4HDYR3FIsrSpG1Dm3+7lbIMetNZ2rj+ZcTK9HHvZc16SvMxYweoozBbPq+Uzml5xXmPRKcuiaRpKUiEEyMZaWRTC94h7SPahtw2igMQRy1NKvdD9+7p7XbuLZcloliVOVVUg54yA3NaCHyL6tl/k6k8qG9krpbVSA159D1ezqwGhE2maOHmet01bMNq17WDH+czt0eU6quR5tIMxmMUIt2aawTC7tajiHY5OXddd1/GqFJ3QQrC9HxzjQmjaSswPXRQZTYOYhknqesnOjzbHrhVK9Ywyp8hzjI6RrOtaTlnsJUlWqq6jQnWyx7GNVFz0jdRcaC416kptcHISxw6lWdu2WRJLKeKlu0+KTumBMd5JKvQ02l/H7VkzqN5ohSn0Ev35zjiNSs1zsVqt37xaalyslr2klJAiKdu8FkUtW6nzstq6u4Pn+X6ATnG7s8Lu2lRS8pJba1AKrRpjZFVxQkvCSJgEXuh7SRgSP8lDWpVldYFI7gKEzn7iL8AvoiXGGCbCGIXQsXK9Xq6zQVaXu7b/ASDt/3UmQOUcAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 72.25433526011561%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAA+wAAAPsAHpfpy9AAACNklEQVQoz6WSX2+bMBTF+f4fak+TurWibQgJwWCwDZj4L762YWqTkI1WmybtcT+de3VfzsPVOQlC6PHx8eHh4Xg8pmn68vLy+kGapgihPM8Ph0OWZUVRPD8/Z1mW5/lut3t/f7/f78n9P0hut9vlcvmzP1nXddub1vv9Huc4DMN5PGutjTEO4O3tbV3Xzay1vlyv4AAcxN+EefbzHEJYggdrhr6vKrR7zU7HoipLpdTttiYxRiXVyLm1kwMX5hhD8Na6YXCcjw3BqG1QS5q+yE7fvj49fX1Kv6eccyFEwhhVSlLa2g+csbLGw7E47k7oiMuioU3PyHBmfYfq0/OuzA5llvO+63uWMMakkpQ01hhxNjzNyP70pQtpN/ngg/cf42E7tl/CPM8xaqkwrhNKqFKqY0Qr5b0XeY6PVTFaJswcvAPwxsAmDUpukjIASCFQiRLOudZ66DtjrBnPeH+qKsqto9J4D+B9i0ldNQ1q0L4s87LYlUpbrRTvh6TFWEnZ4MoYzU4I1awlQ1CqVZO2UwCYwFsAC34Ks5sXGxcfZ61kXVUJZURrTdrGaJ0/pOWgwPuJslEootxnaltgc5ysGfkgRq7OoxAC1zi5XC4AsPz44bTeHTCEOM8RJmcZo5giwhs2EjZ2XNQ1eX3Z74vyhLDWZlmWrZ7Lslxv18lYZ6c5RgDnQ5gAjBCq70TXcUpbTNqmY91IhjPlUp7l1rDPlq7r+vcB4GqEKKWMdV3XXW+3f4v9y/wTKPsBps/BbYwAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -988,6 +1002,7 @@ To myserver:/home/myuser/myproject.git
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -996,27 +1011,24 @@ To myserver:/home/myuser/myproject.git
 &lt;ol&gt;
 &lt;li&gt;Shifting loads to the day time if/when there is excess solar capacity.&lt;/li&gt;
 &lt;li&gt;Reducing usage such that - on average - there are enough hours of solar to charge when taking into account the battery charge curve.&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Performing a portion of the bulk charge using generator power in the morning before the &quot;solar charging day&quot; begins.&lt;/p&gt;
+&lt;li&gt;Performing a portion of the bulk charge using generator power in the morning before the &quot;solar charging day&quot; begins.
 &lt;ul&gt;
 &lt;li&gt;This yields the best value for the time spent running a generator since most generators are most efficient between 40% and 70% of their rated output.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Increasing the size of the LA battery bank.&lt;/p&gt;
+&lt;li&gt;Increasing the size of the LA battery bank.
 &lt;ul&gt;
 &lt;li&gt;This will allow the same amount of usage while staying at a higher SoC - which in turn means staying farther down the tail end of the charging curve.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Shifting loads to other battery technologies.&lt;/p&gt;
+&lt;li&gt;Shifting loads to other battery technologies.
 &lt;ul&gt;
 &lt;li&gt;The cheap/easy version of this is similar to #1 where one just charges laptops/phones/etc during the day when there is excess solar capacity.&lt;/li&gt;
 &lt;li&gt;This could also be a strategy for moving to another battery technology altogether. For example, by using a &lt;a href=&quot;https://www.amazon.com/dp/B085G72RQ2&quot;&gt;DC-DC charger&lt;/a&gt; configured to charge a secondary LiFePo4 battery bank to which loads and batteries are added incrementally.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Hopefully this post has served to highlight the importance of considering charging time as a key aspect of off-grid load management and battery sizing. May your systems be performant, long lasting, and boring.&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Epever Solar Charge Controller Clocks Running Fast]]></title><description><![CDATA[As a follow-up to my previous post about off-grid solar monitoring via the ESP8266, I am writing this post to share what I've learned about…]]></description><link>https://symbioquine.net/2020-09-02-epever-scc-clocks-running-fast</link><guid isPermaLink="false">https://symbioquine.net/2020-09-02-epever-scc-clocks-running-fast</guid><category><![CDATA[Solar]]></category><category><![CDATA[Microcontrollers]]></category><category><![CDATA[Off-grid]]></category><pubDate>Thu, 02 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;As a follow-up to my &lt;a href=&quot;./2020-10-27-epever-esp-8266-controller&quot;&gt;previous post&lt;/a&gt; about off-grid solar monitoring via the ESP8266, I am writing this post to share what I&apos;ve learned about the clock behavior on the EPever (EPSolar) Tracer####AN line of MPPT solar charge controllers.&lt;/p&gt;
+&lt;p&gt;Hopefully this post has served to highlight the importance of considering charging time as a key aspect of off-grid load management and battery sizing. May your systems be performant, long lasting, and boring.&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Epever Solar Charge Controller Clocks Running Fast]]></title><description><![CDATA[As a follow-up to my previous post about off-grid solar monitoring via the ESP8266, I am writing this post to share what I've learned about…]]></description><link>https://symbioquine.net//2020-09-02-epever-scc-clocks-running-fast</link><guid isPermaLink="false">https://symbioquine.net//2020-09-02-epever-scc-clocks-running-fast</guid><category><![CDATA[Solar]]></category><category><![CDATA[Microcontrollers]]></category><category><![CDATA[Off-grid]]></category><pubDate>Thu, 02 Sep 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;As a follow-up to my &lt;a href=&quot;./2020-10-27-epever-esp-8266-controller&quot;&gt;previous post&lt;/a&gt; about off-grid solar monitoring via the ESP8266, I am writing this post to share what I&apos;ve learned about the clock behavior on the EPever (EPSolar) Tracer####AN line of MPPT solar charge controllers.&lt;/p&gt;
 &lt;p&gt;I have four of these solar charge controllers running all the time each with an ESP8266 publishing metrics back to an InfluxDB instance. The Epever Tracer units provide several features which depend on date/time;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Time-of-day load control&lt;/li&gt;
@@ -1038,7 +1050,7 @@ To myserver:/home/myuser/myproject.git
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 53.17919075144509%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAAzElEQVQoz32SCQ6EIAxFPYQLFGgpuIxm7n++KZIgbpO8GNT/+k1j0w1wp1fGYrDI2mDbX9+2vW47rQCbkn5I7NSBPEhZh6MH9M1jc04XOnEEZbRzNDNvkT8xyXXoQpqyawNYF7xfAq9JkwMt/CqXL5QqF704YU1OJvsPsvQkTQEQ+jmEbbxomZNcNjSAsUy0azlUnAf52KGTHXJYx7v2Kg/aGEKauDx9Q/Zcn8FRI1Xjd4rSJp1/kdH1OTUbJECU6wHt4AkQyNe38vP9AF4nTEXE7SQaAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 53.17919075144509%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAAy0lEQVQoz3WR6w6DIAxGfQhFoNBS8ILL3v/5lgbnkElyfpS0h36EYZrtI+DZIRvAh66y42S09UM5Kw3NxKhMoR4YlZganE8BMAy9zUrDRdk2aaudp5X5SHwkkeuhhtNRcpFjClsULaewR9pjVy4JR0nofQp8pHiIUxA/P8nnw2ZrEGmL8U8r3ORJn6tmCxBItNdSEl7Og3w9rErYal1ZGbCEuHL4TvSgjX/1zoA0cE7Ley0hOcvaHnX3/CpAskQgBPgWTuoGuh2RDOAHMj5MQ4zPMuQAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1054,6 +1066,7 @@ To myserver:/home/myuser/myproject.git
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1071,7 +1084,7 @@ To myserver:/home/myuser/myproject.git
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 53.17919075144509%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAAeElEQVQoz82SSwrAIAxEvUOrJvGDvf8lOxoQEbMsFIbhmZjMJs5HuQPDVZNTabk+JOXYBZBUZw0DLk9r6zAcKOEBV1m8VQAjOfAxeeMvku20PydHxiaBqyxeKyN8JFPKuAi4yuJZieq91YcrzgjOClO8+KbxU3J7AX1yPo4Lx5qsAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 53.17919075144509%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAAfElEQVQoz82NUQrDMAxDc4fVtiwnHr3/JUcaKF1IPgeDR3hIMSpiPNTFOLg92lnzBHPZHupgK7vjQ/0leFaLY0WIURGDnU+JGK9l9eXy5L9Y3q/99bKHgOox2PlXgi5gFkQ1BqIOdn4nNt5eZQET3sD0Id0v/AEn+k/W9wdpjT5rJ2d+UwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1087,6 +1100,7 @@ To myserver:/home/myuser/myproject.git
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1205,7 +1219,7 @@ void syncClock() {
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 53.75722543352601%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAB2ElEQVQoz12S646bMBCFeYZuwPaMbQwEknA3ucAaCLlok2zTvv/r1FnUVq00so49xzM/zud4FAnjc83ao5yCkCqyRdH/0/1rm4uiQ0AsCFIKLmGgli4BYFYDVcuFx5KAux7zQHgEJIJr58qQ2AGAbx5zMEkp8IiDDMJ8VzGGKx/tFEjyPOFtJl0mIVr7iCFCsF4lZSoBlj7/5jJHlXUkeKqwMU3Z1aHAleK4Lle6OG9VFXOxKYKiWEuMfd6d96nONhJCyd88cJL9LlN8aGJz7Xa9Tn1cxdHqsJ8u+qr9JguWbZvWRa6g26+Hh2m2WaEgjpcuCKc4bPtc3i5NfzenSWcBr5pquJv7RZ9r2XXlpn9vdDYU/sf9MD7McEjzUJb7hqBwrufdZ795fJrrd3ObqjyJrrfu8dM8z9VHG083o4fuYvLnubw9+/sPM+42O51fHoZy7lxPehrr6WhPPZiqa0u7316PppjGyoza9Po0ltYzHl/v720xTc3xWFPkDviKSt9mRTyq4iCIFRDquQSXiSdUolgSIpHBgqJgbLGg6yKWPpeMEcocm7VHYY7esuHOnFiNwraQi5kHYm1fhDBA66GML145SyVkwED8T9Jv2v5h67VpFq/PvwAFB2BtMZXQrQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 53.75722543352601%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA+wAAAPsAHpfpy9AAAB20lEQVQoz12SW3KbQBBF2YPDPLrnBQNIYCGQZkTACMkCCVtxvP/tJNjllCtV/XGr+/TXPQFlSLn4HPKRyZKlMlbHKReGsK/rF/aZCcOAcBEyQRkQwrmOQy44B0KBaftAwGqkjIdchBQkYEiRqZhQQMAfhAcizSkqKwGlKg81Q7FSCMrgepvE8lhpwhDsWqDIJIrYrnclcsiMfAh5YOq90bLQsHWlG3ykZK4RsyKuq2Fvmlxgso6qOtWYSXRPu6qtMompFg8Egqxt1pHqyujp0hzOvohlbrXd7fvRTS46FMo6v/a7R42HbXJ86VxblQazJCbCBI/tocnVy6ns56fz6EsrN5vi57Wbb36sdX/I876rfdXmch73x9d+6KuNEZWruYmC06W5d6u31/byq7/f/CaJzpdmfu/fZ3f18TS31dA999Xrsbj/7m9v/dSXVZFN917FJpivfjrV0+guoxtPu7Ypp8mNox9P1ThszxffHd31uZ6e6wUY3dBtT8PudvPS6EBEGqwFxgUDGZvVJgHGgTKIE7CpVXyTCW4igkpyoCHPHtN0ZRQH4BCEDAkFwnAxBARhS/tLnyhDhoDIQHwwC/CxEcuVi6VnVEaoiKOi3wT65pz4z7B/nv19/gNIYmEb7PyfMAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1221,11 +1235,12 @@ void syncClock() {
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;In the future I hope to share more of my learnings about monitoring/controlling cheap off-grid solar charge controllers - and perhaps a more complete firmware at some point too.&lt;/p&gt;
-&lt;p&gt;Thanks for reading!&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Pragmatic Minimal Infrastructure]]></title><description><![CDATA[A 2019 article by David Futcher appeared on Hacker News recently titled You Don’t Need All That Complex/Expensive/Distracting Infrastructure…]]></description><link>https://symbioquine.net/2020-03-14-pragmatic-minimal-infrastructure</link><guid isPermaLink="false">https://symbioquine.net/2020-03-14-pragmatic-minimal-infrastructure</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Sun, 14 Mar 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;A 2019 article by David Futcher &lt;a href=&quot;https://news.ycombinator.com/item?id=26423110&quot;&gt;appeared on Hacker News recently&lt;/a&gt; titled &lt;a href=&quot;https://blog.usejournal.com/you-dont-need-all-that-complex-expensive-distracting-infrastructure-a70dbe0dbccb&quot;&gt;You Don’t Need All That Complex/Expensive/Distracting Infrastructure&lt;/a&gt;.
+&lt;p&gt;Thanks for reading!&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Pragmatic Minimal Infrastructure]]></title><description><![CDATA[A 2019 article by David Futcher appeared on Hacker News recently titled You Don’t Need All That Complex/Expensive/Distracting Infrastructure…]]></description><link>https://symbioquine.net//2020-03-14-pragmatic-minimal-infrastructure</link><guid isPermaLink="false">https://symbioquine.net//2020-03-14-pragmatic-minimal-infrastructure</guid><category><![CDATA[Operational Excellence]]></category><category><![CDATA[Software Engineering]]></category><pubDate>Sun, 14 Mar 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;A 2019 article by David Futcher &lt;a href=&quot;https://news.ycombinator.com/item?id=26423110&quot;&gt;appeared on Hacker News recently&lt;/a&gt; titled &lt;a href=&quot;https://blog.usejournal.com/you-dont-need-all-that-complex-expensive-distracting-infrastructure-a70dbe0dbccb&quot;&gt;You Don’t Need All That Complex/Expensive/Distracting Infrastructure&lt;/a&gt;.
 The article is well written and makes a really important point about building to your actual requirements. It&apos;s hard to over-emphasize &lt;a href=&quot;https://martinfowler.com/bliki/Yagni.html&quot;&gt;YAGNI&lt;/a&gt; at all
 levels of coding, software engineering, and operations. Critical thinking about the tradeoffs of increasing the upfront cost - whether in time, cash,
 or complexity - is essential to reaching your audience faster and still having the flexibility/budget to respond to the ever-changing playing field.&lt;/p&gt;
@@ -1266,7 +1281,7 @@ minimal git-ops workflow for day-to-day deployments which makes you feel like yo
 will thank you if deploying is easy, fast, and makes it hard to break things.&lt;/p&gt;
 &lt;p&gt;In short, I too want to see more pragmatic business decisions as opposed to hype-driven over-engineering. However, those decisions need to take into account the
 costs of not keeping up with the times.&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[EPever MPPT Solar Charge Controller Monitoring Hardware]]></title><description><![CDATA[Cheaper MPPT solar charge controllers have become ubiquitous. Many of these sport RS232 or RS485/Modbus ports
-allowing the controllers to be…]]></description><link>https://symbioquine.net/2020-10-27-epever-esp-8266-controller</link><guid isPermaLink="false">https://symbioquine.net/2020-10-27-epever-esp-8266-controller</guid><category><![CDATA[Solar]]></category><category><![CDATA[Microcontrollers]]></category><category><![CDATA[Off-grid]]></category><pubDate>Tue, 27 Oct 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Cheaper MPPT solar charge controllers have become ubiquitous. Many of these sport &lt;a href=&quot;https://en.wikipedia.org/wiki/RS-232&quot;&gt;RS232&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/RS-485&quot;&gt;RS485&lt;/a&gt;/&lt;a href=&quot;https://en.wikipedia.org/wiki/Modbus&quot;&gt;Modbus&lt;/a&gt; ports
+allowing the controllers to be…]]></description><link>https://symbioquine.net//2020-10-27-epever-esp-8266-controller</link><guid isPermaLink="false">https://symbioquine.net//2020-10-27-epever-esp-8266-controller</guid><category><![CDATA[Solar]]></category><category><![CDATA[Microcontrollers]]></category><category><![CDATA[Off-grid]]></category><pubDate>Tue, 27 Oct 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Cheaper MPPT solar charge controllers have become ubiquitous. Many of these sport &lt;a href=&quot;https://en.wikipedia.org/wiki/RS-232&quot;&gt;RS232&lt;/a&gt; or &lt;a href=&quot;https://en.wikipedia.org/wiki/RS-485&quot;&gt;RS485&lt;/a&gt;/&lt;a href=&quot;https://en.wikipedia.org/wiki/Modbus&quot;&gt;Modbus&lt;/a&gt; ports
 allowing the controllers to be extended via proprietary hardware/software for advanced monitoring and control use-cases.&lt;/p&gt;
 &lt;p&gt;Since this Spring I have been experimenting with the EPever (EPSolar) line of MPPT solar charge controllers which have RS485 interfaces and thought it would be worthwhile to share my
 learnings in the hope they will be useful to others.&lt;/p&gt;
@@ -1301,7 +1316,7 @@ Most important of the undocumented commands the MT-50 uses is one for reading sp
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 75.14450867052024%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAC/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAXCYCH2av//EABoQAAIDAQEAAAAAAAAAAAAAAAECABESIQT/2gAIAQEAAQUCE1Xo4Z0B8WjWv//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EAB0QAAEDBQEAAAAAAAAAAAAAAAABITEQERIiMqH/2gAIAQEABj8Cgy2t5Tk6dFGg/8QAHBAAAwACAwEAAAAAAAAAAAAAAAERMUFRYZHB/9oACAEBAAE/IZX3R17TUG1FYdNdMfJkY0/CQ54H/9oADAMBAAIAAwAAABCPD//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EAB0QAQACAgIDAAAAAAAAAAAAAAEAESExQWFxwdH/2gAIAQEAAT8QzASG0AlxDYGBoFjfVwBxoxbkxyfuokhjrFR4StC1byGPs//Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 75.14450867052024%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAC/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAXCYCH2av//EABoQAAIDAQEAAAAAAAAAAAAAAAECABESIQT/2gAIAQEAAQUCE1Xo4Z0B8WjWv//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EAB4QAAEDBAMAAAAAAAAAAAAAAAABESECEDEyIlGh/9oACAEBAAY/AsC1cm8tq5tKL0Rg/8QAHRAAAgIBBQAAAAAAAAAAAAAAAREAITFBUWGRwf/aAAgBAQABPyFR6ctFzCMaojIsHBhJdhkuogKbJ//aAAwDAQACAAMAAAAQjw//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAVEQEBAAAAAAAAAAAAAAAAAAAQIf/aAAgBAgEBPxCn/8QAGxABAQEAAwEBAAAAAAAAAAAAAREAITFhUcH/2gAIAQEAAT8QdAcO0AzCGwEHQKN8uAeNMt1ESn+zTk3kgj400rq/ocb/2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1315,6 +1330,7 @@ Most important of the undocumented commands the MT-50 uses is one for reading sp
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1348,7 +1364,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 58.95953757225434%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABc0leGyhX/8QAHBAAAgAHAAAAAAAAAAAAAAAAAQIAAxAREjEz/9oACAEBAAEFAsSYM0Kwe9H7Lr//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAbEAACAgMBAAAAAAAAAAAAAAABEQAQITFxgf/aAAgBAQAGPwJMj2LLM1Q4a//EABsQAQADAQADAAAAAAAAAAAAAAEAESExEJHw/9oACAEBAAE/ISwh302ypbAvcyObT7labBr9Z4f/2gAMAwEAAgADAAAAEOvP/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQIBAT8QR//EAB4QAAICAgIDAAAAAAAAAAAAAAERACExQVFhgbHw/9oACAEBAAE/EHQW1xbfQ1EMDBsAQeG4lwfnELFYI63B57Hti4UMz//Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 58.95953757225434%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABc0leGyhX/8QAHBAAAgEFAQAAAAAAAAAAAAAAAQIDABAREiMx/9oACAEBAAEFAtSaMgVhJmzjsvn/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAcEAACAgIDAAAAAAAAAAAAAAABEQAQAiExcYH/2gAIAQEABj8CTI9i2zOKx6Nf/8QAGhABAAMBAQEAAAAAAAAAAAAAAQARITEQkf/aAAgBAQABPyEsId9Ns7sBTcyIbT9labybHh//2gAMAwEAAgADAAAAEGgP/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQIBAT8QR//EAB4QAAIBAwUAAAAAAAAAAAAAAAERACExQVFhcZHB/9oACAEBAAE/EHhXVFt7DEDhDcGCjpuLNHlCx2DYzAGtY84TsF5//9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1364,6 +1380,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1392,7 +1409,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 50.86705202312138%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAuBAAALgQETQ8PIAAAB2klEQVQoz52SW2sTQRiG8z+0eEhpMRhiL7TWEwiKN1KQUhSpt16IECSaGxWNYk2LFQX9D2JzpaKFaG2iUSgqosRsswrxYmF7MNmkuptsdudxNmsMRkH0hXcO3zDPN9/MBIQQtO1JNBqgLyJqNdxKRdr40fumWkMYFYQ3Nk0aS8vYKytgGDJuEKBbTUGzvIwjLDlxvRS/LjdWf44fP0lz8/o4yWSCl9ksWBYB13FR1QIflDcsqO+oGTqmVkQt5Llx+xZXxhNMTk2QnLzKxNQ1PiqvMWufWf1SYuzIMH29PQSDa7l4JibzuwTq9TozDx/w6P495mTGUrGIJqF30mmG9u9j++5t7Ny7i/5wiNBAhGcvZihpeQqfioyODhOJhBjcGub82Xjr1AFXUlVlgcLb96j5Ao5ptxYWy0uk5zJknmeZfzXPbDZD+uks1arhl+7YjB0doT/Yw2AkyIVzp32g11h1C1P6q/lN3pq8MyH4m5q2zYnjxzi0ZwtDmzcSjZ70gaJ7s8fDf3XHcX6zV5En225weOQgB3aEGdi0jnj8VAfY7Rb3D/GO/dyxWJRQ33p6N6zh0uVEp+R/kQdsn1JRFFKpaVLTd8nlcv8PbFdhyX+n6zqaplEul1ux7/rnvar/3rA8AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 50.86705202312138%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAuBAAALgQETQ8PIAAABy0lEQVQoz52STWsTURSG528ItmAbq7aMCFKLKYKrbAXFRRVRrKCoOJtijW4LSmIUxIL+A424kEKLrTUfghQRClbSztgGxYRGk2aSks7oZO59ZKZNg002euC9XM65POfl3KNIKdkWIB0HCgWoriPKZouoVJGmiSyXwbJwiiVfjbzCznAlbrmIK20P31KuO7Xte/pdmvFHEaLRMd6nU34DRQjJyorO4tI8+pcF1is/sPIGWWORx0+fcPfeGLGHUe7HIkQexDAyH7Gq37Cq3xk+f5qe7g4CgQ7C2nWo11Ecx2F6apLJiVckZqfJ6jp5c5WXySTBUIgjg/0EjwfZp/ayV+1lNjXB1/xnlrLLnDl7ClU9wEC/yuiI5rtWvNkt6waZ+U8YCxnqG7/9ws9KkdeJJG9TCeY+zPEmmWBqZgbTXPPrAsHFC0P0dO1m4FCA8M0bm0DvsH/ZWLZFbaOGaDO3diGFRLs2zIljBxlUu7ly+VLTYcvjrV93XbdFQohNh0JwbugkoaMqh/v2oGlXmw7/Wp2tBjtz7d7cGh1hf6CTrs5d3L4TbgL/JTxYw6VhGLyIPycef0baW5v/ATag/uxtm0JhlVwux1qp5AP/AG9Cva0VgU+2AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1408,6 +1425,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1425,7 +1443,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 41.61849710982659%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFwABAAMAAAAAAAAAAAAAAAAAAAIDBf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAdGYWg//xAAYEAEAAwEAAAAAAAAAAAAAAAABABARE//aAAgBAQABBQLkkNK//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGhAAAQUBAAAAAAAAAAAAAAAAAQACEDIzgf/aAAgBAQAGPwLVyuTyP//EABkQAQADAQEAAAAAAAAAAAAAAAEAESFxgf/aAAgBAQABPyEUoN8ganwIGa3P/9oADAMBAAIAAwAAABCL/wD/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAbEAEAAgIDAAAAAAAAAAAAAAABABEhMVFxkf/aAAgBAQABPxAqQlqkF9jEDnWqvI5kLlxP/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 41.61849710982659%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFwABAAMAAAAAAAAAAAAAAAAAAAIDBf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAdGYWg//xAAYEAEAAwEAAAAAAAAAAAAAAAABAAMQEf/aAAgBAQABBQIqSHTP/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGhAAAQUBAAAAAAAAAAAAAAAAAQACEDIzgf/aAAgBAQAGPwLVyuTyP//EABkQAQADAQEAAAAAAAAAAAAAAAEAESGBkf/aAAgBAQABPyFJofIGp4EDNbn/2gAMAwEAAgADAAAAEIv/AP/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABsQAQACAgMAAAAAAAAAAAAAAAEAESExUZGh/9oACAEBAAE/EFghbrI9GIHOslXUcoi5Z//Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1441,6 +1459,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1458,7 +1477,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 70.52023121387285%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAOABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAByxW5E4aI/8QAGhAAAwADAQAAAAAAAAAAAAAAAAEDAhARE//aAAgBAQABBQK2VXXzoxT4ND1//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAHRAAAQIHAAAAAAAAAAAAAAAAEQABAhIgMkFRgf/aAAgBAQAGPwKRjCx0rh1Zo//EABsQAQACAgMAAAAAAAAAAAAAAAEAESGBEDGR/9oACAEBAAE/Ia94KztuUMr2YIpVvgETM//aAAwDAQACAAMAAAAQh/8A/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAHRABAAICAgMAAAAAAAAAAAAAAQARIUExYXGRsf/aAAgBAQABPxBZhtcvfyjiarfxAHtl2LzaoFhozDIUf//Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 70.52023121387285%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAOABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAByxW5E4aI/8QAGhAAAwADAQAAAAAAAAAAAAAAAAEDAhARE//aAAgBAQABBQK2VXXzoxT4ND1//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAHRAAAQIHAAAAAAAAAAAAAAAAEQABAhIgMTJRgf/aAAgBAQAGPwKRjCx1dZDtP//EABsQAQACAgMAAAAAAAAAAAAAAAEAERAhgZGx/9oACAEBAAE/Iad6Kz0lDa7mAaVecAibn//aAAwDAQACAAMAAAAQB/8A/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAHBABAAICAwEAAAAAAAAAAAAAAQARIUFhcaGx/9oACAEBAAE/EG+H1V8u0cTVb+IA9l9Hd2qZA0FwwhR//9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1474,6 +1493,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1491,7 +1511,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 50.28901734104046%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAKABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAa7qOQHD/8QAGhAAAgIDAAAAAAAAAAAAAAAAAAECEQMQEv/aAAgBAQABBQLnK5VOxaZ//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGhAAAgIDAAAAAAAAAAAAAAAAATEAAhEgQf/aAAgBAQAGPwI3NUhmci0//8QAGhAAAgMBAQAAAAAAAAAAAAAAAAERITEQcf/aAAgBAQABPyFLemMdWJUse6XxeGj/2gAMAwEAAgADAAAAEIgv/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAGhABAAMBAQEAAAAAAAAAAAAAAQARMSGxgf/aAAgBAQABPxBiBRUldK/OxIq5BS+AirvsJkm81n//2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 50.28901734104046%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAKABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAa7qOQHD/8QAGhAAAgIDAAAAAAAAAAAAAAAAAAECEQMSQf/aAAgBAQABBQLXK51OxHGf/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGhAAAgIDAAAAAAAAAAAAAAAAATEAAhEgQf/aAAgBAQAGPwI3NUhmci0//8QAGxAAAgMAAwAAAAAAAAAAAAAAAAERITEQQXH/2gAIAQEAAT8hXSVjqxWMe6S3wsaP/9oADAMBAAIAAwAAABAIL//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8QP//EABwQAQACAgMBAAAAAAAAAAAAAAEAESExQXGRwf/aAAgBAQABPxAQlvCRulXrMGlTiKX4I5F/SazdNs//2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1507,6 +1527,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
@@ -1524,7 +1545,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 97.68786127167631%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAIDBAEF/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAGduO7N8xIaag4E/8QAGxABAQACAwEAAAAAAAAAAAAAAQIAAxESEyL/2gAIAQEAAQUCQMug13RdW7Lzj62T1q7R9qx2Ln//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AR//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AR//xAAdEAACAQQDAAAAAAAAAAAAAAAAAREQISJBEzFx/9oACAEBAAY/ArrEbjomII4y6xovDRo//8QAHBABAAICAwEAAAAAAAAAAAAAAQARIUExUZGB/9oACAEBAAE/IeNUPeYGByKJcD+pnVK31FWBsZmADCXH3De0u14i9p4n/9oADAMBAAIAAwAAABDzL4P/xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAwEBPxAYz//EABYRAAMAAAAAAAAAAAAAAAAAABEgIf/aAAgBAgEBPxAVP//EAB0QAQEAAgIDAQAAAAAAAAAAAAERACExYUFRwbH/2gAIAQEAAT8Q0OiVdF/c2ImgbV+4wYQE2veKFySHhee8VZopdXw+sfSwA9XCPSiVLDeOkudp+5cOyY//2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 97.68786127167631%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGQABAAIDAAAAAAAAAAAAAAAAAAMEAQIF/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAHeapJm85kWIgCz/8QAGRABAQADAQAAAAAAAAAAAAAAAgEAAxET/9oACAEBAAEFAkYctMDUd2LYs5e7BxN2T2Weyz//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AR//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AR//xAAcEAACAQUBAAAAAAAAAAAAAAAAASECERIxQSL/2gAIAQEABj8C15HGi7pMcBRHSFBSzhw//8QAHhABAAIBBAMAAAAAAAAAAAAAAQARITFBYZFRccH/2gAIAQEAAT8hsCiM5cxyAcJbQPuXOzo/Zgk3I8hC5qyU3nF1imp0n//aAAwDAQACAAMAAAAQkOiB/8QAFREBAQAAAAAAAAAAAAAAAAAAASD/2gAIAQMBAT8QGP/EABURAQEAAAAAAAAAAAAAAAAAAAEg/9oACAECAQE/EEj/xAAdEAEAAgMBAAMAAAAAAAAAAAABABEhMUGRUcHw/9oACAEBAAE/EAbc2ttjMF0XaQrYV7gmI0VKClLUPL9QumzTpo7yNoKAOTEdCzR3wi+FjVKfuI3b/Pmf/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1539,6 +1560,7 @@ keep the ability to remotely push control-program/OS updates&lt;/li&gt;
         sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
