@@ -6,7 +6,7 @@ import PostTags from '../components/PostTags'
 import SocialLinks from '../components/SocialLinks'
 import SEO from '../components/SEO'
 import config from '../../data/SiteConfig'
-import styles from './post.module.scss'
+import * as styles from './post.module.scss'
 import './prism-okaidia.css'
 
 export default ({ data, pageContext }) => {

@@ -4,7 +4,7 @@ const config = {
   siteTitleAlt: 'Symbioquine', // Alternative site title for SEO.
   siteLogo: '/logos/logo-1024.png', // Logo used for SEO and manifest.
   siteUrl: 'https://symbioquine.net', // Domain of your website without pathPrefix.
-  pathPrefix: '',
+  pathPrefix: '/',
   siteDescription:
     'Here is written stuff about systems, technology, ecology, and more.',
   siteRss: '/rss.xml', // Path to the RSS file.
