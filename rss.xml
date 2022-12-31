@@ -1,4 +1,176 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net/</link><image><url>https://symbioquine.net//logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net/</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Wed, 05 Oct 2022 17:21:13 GMT</lastBuildDate><atom:link href="https://symbioquine.net//rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2022. All rights reserved.]]></copyright><item><title><![CDATA[Building Drupal Modules with GitHub Actions]]></title><description><![CDATA[Sometimes CI architectures are more a product of circumstance than we'd like. The strategy described in this post is a prime example of that…]]></description><link>https://symbioquine.net//2022-09-28-github-actions-drupal-module-build-step</link><guid isPermaLink="false">https://symbioquine.net//2022-09-28-github-actions-drupal-module-build-step</guid><category><![CDATA[Software Engineering]]></category><pubDate>Wed, 28 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Sometimes CI architectures are more a product of circumstance than we&apos;d like. The strategy described in this post is a prime example of that.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Symbioquine]]></title><description><![CDATA[Here is written stuff about systems, technology, ecology, and more.]]></description><link>https://symbioquine.net/</link><image><url>https://symbioquine.net//logos/logo-48.png</url><title>Symbioquine</title><link>https://symbioquine.net/</link></image><generator>GatsbyJS Advanced Starter</generator><lastBuildDate>Sat, 31 Dec 2022 21:54:26 GMT</lastBuildDate><atom:link href="https://symbioquine.net//rss.xml" rel="self" type="application/rss+xml"/><copyright><![CDATA[Copyright © 2022. All rights reserved.]]></copyright><item><title><![CDATA[MultiPlus Inverter Metrics]]></title><description><![CDATA[I am lucky enough to have a pair of Victron MultiPlus inverters (Multi(s) hereafter). Originally, I just had one hooked up and kept the…]]></description><link>https://symbioquine.net//2022-12-31-multiplus-inverter-metrics</link><guid isPermaLink="false">https://symbioquine.net//2022-12-31-multiplus-inverter-metrics</guid><category><![CDATA[Off-grid]]></category><category><![CDATA[Monitoring]]></category><pubDate>Sat, 31 Dec 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I am lucky enough to have a pair of Victron MultiPlus inverters (Multi(s) hereafter). Originally, I just had one hooked up and kept the other as a backup - I
+have semi-critical loads like a freezer that would be wasteful/costly in the event of a prolonged outage. However, recently our winter charging needs dictated
+that charging faster via the generator was in order - this provides extra flexibility, keeps the noise down for our neighbors, and &lt;del&gt;I suspect&lt;/del&gt; yields better
+generator efficiency (more on that in another post). Thus for me, hooking up the second Multi was an obvious next step.&lt;/p&gt;
+&lt;p&gt;This post will describe some things I have learned about the Multi&apos;s data protocols and how I&apos;ve been using them to monitor our generator usage.&lt;/p&gt;
+&lt;p&gt;Originally, I had a very simple script to pull data using a library Victron references in their
+&lt;a href=&quot;https://www.victronenergy.com/live/open_source:start#multis_quattros_mk2&quot;&gt;open source link-farm&lt;/a&gt;, &lt;a href=&quot;https://github.com/izak/ib.victron&quot;&gt;izak/ib.victron&lt;/a&gt;
+(izak/ib.victron hereafter). It&apos;s not clear if that library is still being maintained and it has some other issues - e.g. &lt;a href=&quot;https://github.com/izak/ib.victron/pull/3&quot;&gt;still on Python
+2&lt;/a&gt;, only supports a single bus device properly, and makes a few assumptions which break with the current version of
+the protocol. I don&apos;t want to beat up on that library too much because it served me well for a year and helped me understand the protocol immensely. Just that
+my use-case outgrew it. In addition to sharing what I&apos;ve learned here, I hope to eventually share the library I&apos;ve written as a spiritual successor to
+izak/ib.victron.&lt;/p&gt;
+&lt;p&gt;Unfortunately, Victron puts their protocol documentation behind an email form so I can&apos;t share a direct link, but the relevant documentation can be found quite
+easily by requesting &quot;Interfacing with VE Bus products - MK2 protocol&quot; from &lt;a href=&quot;https://www.victronenergy.com/support-and-downloads/technical-information&quot;&gt;Victron&apos;s Technical information downloads
+page&lt;/a&gt;. The rest of this post will reference version 3.14 of that documentation,
+however I will try to provide enough detail so having that documentation in-hand isn&apos;t essential.&lt;/p&gt;
+&lt;h3 id=&quot;bus-vs-device-communication&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#bus-vs-device-communication&quot; aria-label=&quot;bus vs device communication permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Bus vs Device Communication&lt;/h3&gt;
+&lt;p&gt;Multi&apos;s (and some other Victron devices) have RJ45 ports (the same physical ports used for ethernet) which are used to chain one or more devices together into
+a single physical communication &quot;bus&quot;. This bus (VE.Bus) is used by the devices themselves to coordinate parallel/split-phase/multi-phase operation and by
+monitoring/control hardware/software. In order to access the bus from a computer, a special USB adapter (&lt;a href=&quot;https://www.amazon.com/dp/B06Y5WS3VZ/&quot;&gt;MK3-USB&lt;/a&gt;) is
+used to translate between the bus transport and expose it as a serial interface.&lt;/p&gt;
+&lt;p&gt;On the software side, Victron calls the protocol for interfacing with the bus &quot;MK2&quot;. Messages in the MK2 protocol are called &quot;frames&quot;. Most of these messages
+take the form of a command/response pattern where devices wait for frames which request information or make changes, then respond with the requested
+information or confirmation/errors. There are two broad categories of commands, commands which pertain to the bus as a whole, and &quot;Winmon&quot; commands which
+pertain to specific devices only.&lt;/p&gt;
+&lt;p&gt;The izak/ib.victron library mainly only exposes the bus-level information. Interestingly, a lot of the bus-level information can&apos;t be interpreted without also
+requesting supporting data from the individual bus devices. The rational for this doesn&apos;t seem to be documented in the protocol. Nor does it seem to be
+documented whether, in systems with several Multis, it is valid to use the supporting data from the first device to interpret the the bus-level information for
+all the devices - we kind of have to assume so, but it feels like a major gap in the protocol documentation.&lt;/p&gt;
+&lt;p&gt;Another gap in the protocol documentation seems to be in terms of the meaning of parts of the bus-level information when multiple devices are hooked up.
+Specifically, I was interested in the steady-state power cost of having two inverters hooked up all the time. With one inverter, I had been monitoring the DC
+power usage as as measured by the inverter and it seemed to match up with the baseline power usage for my system as a whole. When I hooked up the second
+inverter though, I was puzzled since that bus-level power usage number didn&apos;t appear to double. I still can&apos;t totally explain that phenomena (I will touch on
+the phenomena in a later section to describe what I do know, but - as I say - it&apos;s still unexplained.) It is that quandary that sent me down the path of
+trying to monitor the DC power usage for each inverter independently.&lt;/p&gt;
+&lt;p&gt;In the MK2 protocol, there is a bus-level address command which is used to set or retrieve the address of the device to which subsequent Winmon commands are
+directed. The izak/ib.victron library allows an address to be specified, but only once and only one address. It doesn&apos;t allow switching between devices on the
+fly and although it provides a primitive locking mechanism which would appear to allow multiple instances to work with the same bus, there isn&apos;t any logic
+to track which device is currently being addressed so it isn&apos;t really viable to use as-is for sending Winmon commands to multiple bus devices.&lt;/p&gt;
+&lt;h3 id=&quot;device-discovery&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#device-discovery&quot; aria-label=&quot;device discovery permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Device Discovery&lt;/h3&gt;
+&lt;p&gt;The MK2 documentation also describes how to discover which devices are on the bus. This is done by iteratively selecting addresses and testing whether a
+response is received when issuing a Winmon command. The izak/ib.victron library doesn&apos;t handle this at all.&lt;/p&gt;
+&lt;p&gt;Interestingly, the MK2 protocol documentation doesn&apos;t clarify whether the result of this device discovery should be assumed to be valid for the entire life
+of a bus connection. In the case of my inverters I&apos;m assuming so - since they&apos;re set up to switch as a group, meaning they can&apos;t be disconnected without
+interrupting all the devices and I don&apos;t have any more VE.Bus devices to connect.&lt;/p&gt;
+&lt;h3 id=&quot;device-ram-snapshots&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#device-ram-snapshots&quot; aria-label=&quot;device ram snapshots permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Device RAM Snapshots&lt;/h3&gt;
+&lt;p&gt;The MK2 protocol documentation suggests that, to get accurate point-in-time power data, one can issue a bus-level command to snapshot up to 6 specific RAM
+variables, then read the data from that snapshot on each device. The available RAM IDs appear to correspond pretty closely to data that is also available via
+the bus-level info commands, but the mapping between the two isn&apos;t explicitly described in the documentation.&lt;/p&gt;
+&lt;h3 id=&quot;poorly-documented-ram-variables&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#poorly-documented-ram-variables&quot; aria-label=&quot;poorly documented ram variables permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Poorly Documented RAM Variables&lt;/h3&gt;
+&lt;p&gt;Along similar lines, some of the RAM variables have cryptic or misleading descriptions. Specifically, RAM variables 14 and 15 appear to have the exact same
+description, but return different values. Presumably, folks at Victron who wrote the documentation copied and pasted between the two variables&apos; descriptions
+but forgot to update one of them.&lt;/p&gt;
+&lt;p&gt;By recording both of these and looking at them both with and without the generator running, I think I can explain what they actually mean.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;RAM[2] * RAM[3]&lt;/code&gt;: &quot;vainv&quot; (Abs volt-amps passing through inverter hardware)&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;RAM[4] * RAM[5]&lt;/code&gt;: &quot;wbat&quot; (Abs watts from battery)&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;RAM[14]&lt;/code&gt;: &quot;invpow&quot; (Power passing through inverter hardware)&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;RAM[15]&lt;/code&gt;: &quot;mainpow&quot; (Total power from mains: load + charging)&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;RAM[16]&lt;/code&gt;: &quot;outpow&quot; (Power to load)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d381c79489b3a3eab8281dec5cf2c568/2adcb/inverter-ram-variables.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.445086705202314%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAC4jAAAuIwF4pT92AAABOklEQVQoz22RaW6DMBhEOUMCxisYb9CkSSDp/a82lRcQtPx4Gn9Yfhqbqmk5roSBUoGp1xg7jdDlXLkNFrfBpbVTPRrCcG0ouOwRpjv8eIP1I4TSqFYhZwKLdZiNw2tweJkdg00sxuFbG2wluMJgAzptk4xQcRQ+ysEzHtriGZv2JjWsS8tL3W7EOQtjfSbxsh6L81j8SsizdXj7gE8IeBq7Cc+oSCu2hi8XMtaXdc7ZjyUDvq1PV653LfdZrZtROJfrPcv1Dui8dy9v+Fe4NawJx6WhYFT8l5wQ3/CaRJma0JJFSJkAYxydkOlA/MuzOeZS1jEfgwHnAoxzNO1JwyiUUkIrhcVafJzDx62ZeZf5xznM1kIplSBFuKciVKKmEox3mLTB1Bf0jvLtSxuEfgBhEg2Vh7dcG/4C4Z8QSdibu7wAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Inverter RAM Variables Graph&quot;
+        title=&quot;Inverter RAM Variables Graph&quot;
+        src=&quot;/static/d381c79489b3a3eab8281dec5cf2c568/1e043/inverter-ram-variables.png&quot;
+        srcset=&quot;/static/d381c79489b3a3eab8281dec5cf2c568/991de/inverter-ram-variables.png 173w,
+/static/d381c79489b3a3eab8281dec5cf2c568/e4d6b/inverter-ram-variables.png 345w,
+/static/d381c79489b3a3eab8281dec5cf2c568/1e043/inverter-ram-variables.png 690w,
+/static/d381c79489b3a3eab8281dec5cf2c568/e3189/inverter-ram-variables.png 1035w,
+/static/d381c79489b3a3eab8281dec5cf2c568/b1001/inverter-ram-variables.png 1380w,
+/static/d381c79489b3a3eab8281dec5cf2c568/2adcb/inverter-ram-variables.png 1984w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;In the above graph I have multiplied &quot;outpow&quot; (&lt;code class=&quot;language-text&quot;&gt;RAM[15]&lt;/code&gt;) by &lt;code class=&quot;language-text&quot;&gt;-1&lt;/code&gt; to make it easier to see how it is the sum of the load power plus the charging power. In my
+installation, this value is always zero or less, indicating power flowing from my generator to charge the batteries and power loads. I don&apos;t know whether there
+are scenarios where a positive value is possible, but we can surmise it might indicate power flowing back to mains - perhaps where power is being feed back to
+the grid.&lt;/p&gt;
+&lt;p&gt;I included &quot;vainv&quot; (the product of &lt;code class=&quot;language-text&quot;&gt;RAM[2] * RAM[3]&lt;/code&gt;) and &quot;wbat&quot; (the product of &lt;code class=&quot;language-text&quot;&gt;RAM[4] * RAM[5]&lt;/code&gt;) for comparison. I suspect the small differences where vainv
+is always a little higher than &quot;invpow&quot; (&lt;code class=&quot;language-text&quot;&gt;RAM[14]&lt;/code&gt;) are the result of my loads&apos; power factor being slightly less than one - the three RAM values were captured
+as part of the same snapshot. Similarly, the difference between the inverter power and &quot;wbat&quot; should show us the overhead or self-consumption of the inverter.&lt;/p&gt;
+&lt;p&gt;Finally, &quot;outpow&quot; (&lt;code class=&quot;language-text&quot;&gt;RAM[16]&lt;/code&gt;) is pretty self-explanatory. It is just the power actually used by loads on the AC output of the Multis and does not seem to
+effected by whether the inverter hardware is charging or inverting. (Except for the edge case I&apos;ll describe next...)&lt;/p&gt;
+&lt;h3 id=&quot;missing-background-power-usage&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#missing-background-power-usage&quot; aria-label=&quot;missing background power usage permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Missing Background Power Usage&lt;/h3&gt;
+&lt;p&gt;As mentioned earlier, I was surprised to see that the zero-load usage of the new inverter was zero which didn&apos;t match the specification sheet, nor my experience
+with the first inverter. After much experimenting with the metrics side of things, I finally decided to stick a clamp ammeter on the cable to the inverter and
+found around 0.95 amps @ 26.5v DC with zero load - literally nothing connected to the output. Since that didn&apos;t appear in any of the metrics, I next tested with
+a known load by putting a 40 watt incandescent light bulb directly on the terminals. Immediately, the Multi started reporting that it was consuming 69 watts from
+the battery which is much more like what I was expecting. Thus in my present configuration it appears the second Multi has an idle power draw in the range of 30
+watts, but has trouble self-reporting that usage unless there is also some AC load current flowing.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 690px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d47d42f0cc082075f62e61e5d6786da5/e24fe/inverter-self-consumption.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 54.33526011560693%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAgnAAAZhwGkFvs+AAAA3klEQVQoz32Qa2oDMQyE9w5r6zGyZHu3/Vna+5+u2KFJSNaFDyEYiRlpE0RmrGBGoqW6sRYSEL8hUPfijghWy6wvA2NZLUhshQp4IY1lQVzY3oIRmEbNYpcDI/bqJMAcUIBELy/f1Ooqs5mFWURYiZvHa+x/nBOBshznx9f3T7S+k+a583AW+Pj2AmGwQs1ZMJ0fTGd4Yk2s+a/eoFmFNJMmukvP0XQr0frRWq+t12M20epx1vOzqwXggqhtqHXOjKZF6+FRN1bz2lGilPDa5mMlk+wkiWTPg0xP8L3XX31nQA/RG1PpAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Inverter Self-consumption Graph&quot;
+        title=&quot;Inverter Self-consumption Graph&quot;
+        src=&quot;/static/d47d42f0cc082075f62e61e5d6786da5/1e043/inverter-self-consumption.png&quot;
+        srcset=&quot;/static/d47d42f0cc082075f62e61e5d6786da5/991de/inverter-self-consumption.png 173w,
+/static/d47d42f0cc082075f62e61e5d6786da5/e4d6b/inverter-self-consumption.png 345w,
+/static/d47d42f0cc082075f62e61e5d6786da5/1e043/inverter-self-consumption.png 690w,
+/static/d47d42f0cc082075f62e61e5d6786da5/e3189/inverter-self-consumption.png 1035w,
+/static/d47d42f0cc082075f62e61e5d6786da5/e24fe/inverter-self-consumption.png 1073w&quot;
+        sizes=&quot;(max-width: 690px) 100vw, 690px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I will probably work around this discrepancy in the future by just shifting some of my loads on to the other split-phase leg and then not worry about it.&lt;/p&gt;
+&lt;h3 id=&quot;monitoring-generator-usage&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#monitoring-generator-usage&quot; aria-label=&quot;monitoring generator usage permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Monitoring Generator Usage&lt;/h3&gt;
+&lt;p&gt;For a while now I&apos;ve been tracking my generator usage. This helps me understand the ongoing costs of my off-grid system. Some interesting efficiency data has
+come out of that which will probably be the subject of another post, but the part I want to discuss here is the actual monitoring mechanism because that is based
+on the metrics from the Multis and my learnings above.&lt;/p&gt;
+&lt;p&gt;In my system all generator power flows through the Multis which charge the batteries and also pass power through to my AC loads. There are several advantages to
+this configuration:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It eliminates the need for a transfer switch since the Multis can do that internally - seamlessly switching from inverter to pass-through modes as needed&lt;/li&gt;
+&lt;li&gt;The Multis can automatically manage the max generator current such that the charging rate is attenuated when large loads come on&lt;/li&gt;
+&lt;li&gt;The Multis provide a common point where many of the key usage metrics can be measured&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To that last point, I can then have a tiny service which utilizes the learnings above to poll the Multis and write the relevant metrics into InfluxDB. Those
+raw metrics are available in a dashboard, but also are available for analysis purposes. In this case, I have a script which reads the data from InfluxDB and
+outputs the generator run time and kWh produced for each instance the generator is run.&lt;/p&gt;
+&lt;p&gt;I&apos;ll probably share the actual code for doing that in a future post, but for now, I&apos;ll just outline how it works. The script pulls 1 minute data for the last week
+and looks for datapoints where the inverter is charging instead of drawing power from the batteries. For those time periods it tracks the total runtime and sums
+the 1 minute averages of the power used to charge and power passing through to the loads.&lt;/p&gt;
+&lt;p&gt;The resulting data can help with understanding the generator&apos;s performance characteristics - i.e. at what average loading do we get the most kWh per unit of
+generator fuel. It also is a convenient way to track generator run hours which is useful for scheduling maintenance tasks like oil changes and filter cleaning.&lt;/p&gt;
+&lt;h3 id=&quot;conclusion&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#conclusion&quot; aria-label=&quot;conclusion permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;I don&apos;t know what the ideal intersection is for open source/knowledge with proprietary upper-mid-teir hardware like Victron. Clearly, there is an argument for
+Victron funding more first-party open source tooling and improving their documentation to disambiguate some of the points that I&apos;ve highlighted above. At
+the same time I appreciate that there exists &lt;em&gt;some&lt;/em&gt; documentation, and admire the scrappy nature of the community open source projects they&apos;ve linked to.&lt;/p&gt;
+&lt;p&gt;I hope that this post is helpful to others who want to gain access to detailed inverter metrics and attain a deeper understanding of the behaviour their systems.
+Perhaps it will inspire people to share their learnings and library improvements.&lt;/p&gt;
+&lt;p&gt;More generally, I am optimistic that the sum of the broader hacker/tinkerer communities&apos; efforts with various alternative/renewable/off-grid energy systems and
+components will yield a more robust and adaptable technical ecosystem. That in turn could allow folks to build systems they can afford and which reward
+conserving resources. Acknowledging of course that in many/(most?) cases, if available, standard grid power will probably be the cleanest and cheapest option
+overall.&lt;/p&gt;
+&lt;p&gt;Happy New Year and happy/safe hacking!&lt;/p&gt;</content:encoded><author>symbioquine@gmail.com</author></item><item><title><![CDATA[Building Drupal Modules with GitHub Actions]]></title><description><![CDATA[Sometimes CI architectures are more a product of circumstance than we'd like. The strategy described in this post is a prime example of that…]]></description><link>https://symbioquine.net//2022-09-28-github-actions-drupal-module-build-step</link><guid isPermaLink="false">https://symbioquine.net//2022-09-28-github-actions-drupal-module-build-step</guid><category><![CDATA[Software Engineering]]></category><pubDate>Wed, 28 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Sometimes CI architectures are more a product of circumstance than we&apos;d like. The strategy described in this post is a prime example of that.&lt;/p&gt;
 &lt;p&gt;Many Drupal modules don&apos;t require a build step, typically they are just some PHP, yaml, and maybe some Twig/JS/CSS files all checked-in. Those
 files then directly form the contents of the release for the module.&lt;/p&gt;
 &lt;p&gt;Drupal.org&apos;s infrastructure is tailored to that style of module. Internally Drupal.org uses an instance of GitLab to host the source code for
